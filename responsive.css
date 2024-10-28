@@ -1,0 +1,105 @@
+@media screen and (max-width: 1133px) {
+
+    /*CLASSES GERAIS*/
+    .flex {
+        flex-direction: column;
+    }
+    
+    /*CABEÇALHO*/
+    .menu-desktop, header .btn-entrar {
+        display: none;
+    }
+
+    .interface .logo {
+        line-height: 21.5px;
+    }
+    
+    .interface .logo a.solon h1 {
+        font-size: 25px;
+    }
+    
+    .interface .logo a.solon i {
+        font-size: 18px;
+    }
+    
+    .interface .logo a.service {
+        text-decoration: none;
+    }
+    
+    .interface .logo a.service h1 {
+        font-size: 24px;
+    }
+
+    .btn-abrir-menu {
+        display: block;
+    }
+
+    /*TOPO DO SITE*/
+    section.topo-do-site .flex {
+        gap: 40px;
+    }
+    
+    section.topo-do-site {
+        padding: 0px 8%;
+        padding-top: 25px;
+    }
+
+    .topo-do-site .txt-topo-site h1 {
+        text-align: center;
+        font-size: 30px;
+    }
+
+    .topo-do-site .txt-topo-site p.info {
+        font-size: 15px;
+        text-align: left;
+        margin-top: 23px;
+        margin-bottom: 0px;
+    }
+
+    
+    .topo-do-site .img-topo-site {
+        display: none;
+    }
+
+    /* INSCRIÇÃO */
+    section.inscrição {
+        padding: 25px 8%;
+    }
+
+    .inscrição .txt-inscrição h2.titulo {
+        color: #fff;
+        font-size: 30px;
+        text-align: center;
+    }
+
+    .inscrição .txt-inscrição .redes-sociais-btn button {
+        margin: 0 6px;
+        font-size: 20px;
+    }
+
+    .inscrição .txt-inscrição .form-topo form input {
+        width: 100%;
+        font-size: 14px;
+        padding: 15px 15px;
+    }
+
+    .inscrição .txt-inscrição form .btn-entrar button {
+        margin-top: 25px;
+        padding: 10px 30px;
+        font-size: 16px;
+        width: 70%;
+    }
+
+    .inscrição .txt-inscrição form .entrar-link {
+        display: block;
+        width: 100%;
+        text-align: right;
+    }
+
+    .inscrição .txt-inscrição form .entrar-link a {
+        text-decoration: none;
+        color: #fff;
+        font-size: 13px;
+    }
+
+}
