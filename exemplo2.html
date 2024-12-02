@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Materiais de Construção</title>
+    <style>
+        /* Reset básico */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* Cabeçalho e menu */
+        header {
+            background-color: #FF5A00;
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 10px 0;
+        }
+
+            .navbar a {
+                color: #fff;
+                padding: 10px 20px;
+                text-decoration: none;
+                font-size: 16px;
+                position: relative;
+            }
+
+                .navbar a:hover {
+                    background-color: #FF5A00;
+                }
+
+            .navbar .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .navbar .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #333;
+                min-width: 160px;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+                .navbar .dropdown-content a {
+                    color: white;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                    text-align: left;
+                }
+
+                    .navbar .dropdown-content a:hover {
+                        background-color: #FF5A00;
+                    }
+
+            .navbar .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+        /* Barra de pesquisa */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px;
+        }
+
+            .search-bar input[type="text"] {
+                width: 60%;
+                padding: 10px;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                border-radius: 5px 0 0 5px;
+            }
+
+            .search-bar button {
+                padding: 10px 20px;
+                background-color: #FF5A00;
+                border: none;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 0 5px 5px 0;
+            }
+
+        /* Carrossel de imagens */
+        .carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+            .carousel img {
+                width: 100%;
+                height: 350px;
+                display: none;
+            }
+
+                .carousel img.active {
+                    display: block;
+                }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+            .carousel-controls button {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                border: none;
+                padding: 10px;
+                cursor: pointer;
+            }
+
+        /* Produtos */
+        #searchResults {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .product {
+            width: 200px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            margin: 10px;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+
+            .product img {
+                width: 100%;
+                height: auto;
+                border-radius: 8px;
+            }
+
+            .product button {
+                background-color: #FF5A00;
+                color: #fff;
+                padding: 8px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 10px;
+            }
+
+        /* Quantidade do item */
+        .quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+            .quantity button {
+                background-color: #FF5A00;
+                color: #fff;
+                border: none;
+                padding: 5px 10px;
+                font-size: 18px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+            .quantity input {
+                width: 50px;
+                text-align: center;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                margin: 0 5px;
+            }
+
+        /* Botão flutuante do WhatsApp */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+            .whatsapp-btn span {
+                right: 50px;
+                font-size: 14px;
+            }
+
+            .whatsapp-btn:hover span {
+                opacity: 1;
+            }
+
+        /* Carrinho de compras */
+        #cart {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            width: 80%;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #cartItems {
+            list-style-type: none; /* Remove os pontos */
+            padding: 0;
+        }
+
+        /* Rodapé fixo */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .remove-item {
+            color: red;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .finish-purchase-btn {
+            background-color: #FF5A00;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img style="float: left; justify-content: space-between;" width="200" height="70" src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/aaa44ed47126938abbd7a58d00d0dec5/rabelo.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrGrIGdKOz0L2Jhqq2GsLWg1jUQ2v-o0EAFJNEW8Jdblp6xNt2fIAwZ9gQ2rCRVIE7SSoxu0Rdu-FoNYOXSZu8ik5uTK2N7cp6L8wpgPw4NzlHjRZBd7rDuwWfTPURaHW_s=">
+        <h1 style="margin-right: 10%;">Loja de Materiais de Construção</h1>
+        <p style="margin-right: 10%;">Bem-vindo à nossa loja online de materiais de construção!</p>
+    </header>
+
+    <nav class="navbar">
+        <a href="index.html">Início</a>
+        <a href="exemplo3.html">Tintas</a>
+        <a href="ceramicas.html">Cerâmicas</a>
+        <a href="lustres.html">Lustres</a>
+        <a href="ferramentas.html">Ferramentas</a>
+        <a href="banheiro.html">Banheiro</a>
+        <a href="construcao.html">Construção</a>
+    </nav>
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar produto...">
+        <button onclick="searchProduct()">Pesquisar</button>
+    </div>
+
+    <div class="carousel">
+        <img src="https://via.placeholder.com/800x300" class="active" alt="Imagem 1">
+        <img src="https://via.placeholder.com/800x300" alt="Imagem 2">
+        <img src="https://via.placeholder.com/800x300" alt="Imagem 3">
+        <div class="carousel-controls">
+            <button onclick="prevSlide()">❮</button>
+            <button onclick="nextSlide()">❯</button>
+        </div>
+    </div>
+
+    <div id="searchResults"></div>
+
+    <!-- Carrinho de compras -->
+    <div id="cart">
+        <h2>Carrinho de Compras</h2>
+        <ul id="cartItems"></ul>
+        <p id="cartTotal"></p>
+        <button class="finish-purchase-btn" onclick="finalizePurchase()">Finalizar Compra</button>
+    </div>
+
+    <!-- Botão de WhatsApp -->
+    <a href="https://wa.me/5588999750300" class="whatsapp-btn" target="_blank">
+        <span>Fale conosco</span>
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/WhatsApp_icon.svg/2048px-WhatsApp_icon.svg.png" alt="WhatsApp" width="30" height="30">
+    </a>
+
+    <footer>
+        <p>&copy; 2024 Loja de Materiais de Construção. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        const products = [
+            { id: 1, name: 'Tinta Suvinil - Azul', brand: 'Suvinil', image: 'https://via.placeholder.com/150', price: 50.00 },
+            { id: 2, name: 'Tinta Coral - Verde', brand: 'Coral', image: 'https://via.placeholder.com/150', price: 45.00 },
+            { id: 3, name: 'Tinta Sherwin-Williams - Branco', brand: 'Sherwin-Williams', image: 'https://via.placeholder.com/150', price: 60.00 },
+            { id: 4, name: 'Tinta Suvinil - Vermelho', brand: 'Suvinil', image: 'https://via.placeholder.com/150', price: 55.00 }
+        ];
+
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+        function displayProducts(products) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+            products.forEach(product => {
+                const productElem = document.createElement('div');
+                productElem.className = 'product';
+                productElem.innerHTML = `
+                    <img src="${product.image}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>R$ ${product.price.toFixed(2)}</p>
+                    <div class="quantity">
+                        <button onclick="decreaseQuantity(${product.id})">-</button>
+                        <input type="number" id="quantity-${product.id}" value="1" min="1">
+                        <button onclick="increaseQuantity(${product.id})">+</button>
+                    </div>
+                    <button onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
+                `;
+                searchResults.appendChild(productElem);
+            });
+        }
+
+        function addToCart(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            const quantity = parseInt(quantityInput.value);
+            const product = products.find(p => p.id === productId);
+
+            const existingItem = carrinho.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                carrinho.push({ ...product, quantity });
+            }
+
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            updateCart();
+        }
+
+        function increaseQuantity(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+
+        function decreaseQuantity(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        }
+
+        function updateCart() {
+            const cartItemsList = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            cartItemsList.innerHTML = '';
+            let total = 0;
+
+            carrinho.forEach(item => {
+                const cartItemElem = document.createElement('li');
+                cartItemElem.innerHTML = `
+                    ${item.name} - Quantidade: ${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}
+                    <span class="remove-item" onclick="removeItem(${item.id})">Remover</span>
+                `;
+                cartItemsList.appendChild(cartItemElem);
+                total += item.price * item.quantity;
+            });
+
+            cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
+        }
+
+        function removeItem(productId) {
+            carrinho = carrinho.filter(item => item.id !== productId);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            updateCart();
+        }
+
+        function finalizePurchase() {
+            const total = carrinho.reduce((acc, item) => acc + item.price * item.quantity, 0);
+            if (total > 10) {
+                let message = 'Olá, gostaria de finalizar a compra dos seguintes itens:\n\n';
+                carrinho.forEach(item => {
+                    message += `- ${item.name} (quantidade: ${item.quantity}): R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+                });
+                message += `\nTotal: R$ ${total.toFixed(2)}`;
+                const encodedMessage = encodeURIComponent(message);
+                const whatsappLink = `https://wa.me/5588999750300?text=${encodedMessage}`;
+                window.open(whatsappLink, '_blank');
+            } else {
+                alert('O total da compra deve ser acima de R$ 10,00 para finalizar a compra.');
+            }
+        }
+
+        displayProducts(products);
+        updateCart();
+    </script>
+</body>
+</html>
