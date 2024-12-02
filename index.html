@@ -428,9 +428,9 @@
 <body>
 
     <header>
-        <img  justify-content: space-between;" width="200" height="70" src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/aaa44ed47126938abbd7a58d00d0dec5/rabelo.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrGrIGdKOz0L2Jhqq2GsLWg1jUQ2v-o0EAFJNEW8Jdblp6xNt2fIAwZ9gQ2rCRVIE7SSoxu0Rdu-FoNYOXSZu8ik5uTK2N7cp6L8wpgPw4NzlHjRZBd7rDuwWfTPURaHW_s=">
-        <h1  >Materiais de Construção</h1>
-        <p >Bem-vindo à nossa loja online de materiais de construção!</p>
+        <img justify-content: space-between;" width="200" height="70" src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/aaa44ed47126938abbd7a58d00d0dec5/rabelo.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrGrIGdKOz0L2Jhqq2GsLWg1jUQ2v-o0EAFJNEW8Jdblp6xNt2fIAwZ9gQ2rCRVIE7SSoxu0Rdu-FoNYOXSZu8ik5uTK2N7cp6L8wpgPw4NzlHjRZBd7rDuwWfTPURaHW_s=">
+        <h1>Materiais de Construção</h1>
+        <p>Bem-vindo à nossa loja online de materiais de construção!</p>
     </header>
 
     <nav class="navbar">
@@ -447,8 +447,8 @@
                     <a href="#" onclick="filterByBrand('Sherwin-Williams')">Promoções</a>
                 </div>
             </li>
-        
-        
+
+
             <li class="dropdown">
                 <a href="tintas.html">Tintas</a>
                 <div class="dropdown-content">
@@ -457,8 +457,8 @@
                     <a href="#" onclick="filterByBrand('Sherwin-Williams')">Sherwin-Williams</a>
                 </div>
             </li>
-        
-        
+
+
             <li class="dropdown">
                 <a href="tintas.html">Cerâmicas</a>
                 <div class="dropdown-content">
@@ -467,7 +467,7 @@
                     <a href="#" onclick="filterByBrand('Sherwin-Williams')">Sherwin-Williams</a>
                 </div>
             </li>
-        
+
             <li class="dropdown">
                 <a href="tintas.html">Lustres</a>
                 <div class="dropdown-content">
@@ -509,7 +509,7 @@
 
 
     </nav>
-   
+
 
 
 
@@ -527,6 +527,13 @@
             <button onclick="nextSlide()">❯</button>
         </div>
     </div>
+    <section>
+        <h2>Assista ao Nosso Vídeo</h2>
+        <iframe width="30%" height="315" src="https://www.youtube.com/embed/t2oXdGkM8Lo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </section>
+    >
+
+
 
     <div id="searchResults"></div>
 
@@ -565,16 +572,16 @@
                 const productElem = document.createElement('div');
                 productElem.className = 'product';
                 productElem.innerHTML = `
-                            <img src="${product.image}" alt="${product.name}">
-                            <h3>${product.name}</h3>
-                            <p>R$ ${product.price.toFixed(2)}</p>
-                            <div class="quantity">
-                                <button onclick="decreaseQuantity(${product.id})">-</button>
-                                <input type="number" id="quantity-${product.id}" value="1" min="1">
-                                <button onclick="increaseQuantity(${product.id})">+</button>
-                            </div>
-                            <button onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
-                        `;
+                                        <img src="${product.image}" alt="${product.name}">
+                                        <h3>${product.name}</h3>
+                                        <p>R$ ${product.price.toFixed(2)}</p>
+                                        <div class="quantity">
+                                            <button onclick="decreaseQuantity(${product.id})">-</button>
+                                            <input type="number" id="quantity-${product.id}" value="1" min="1">
+                                            <button onclick="increaseQuantity(${product.id})">+</button>
+                                        </div>
+                                        <button onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
+                                    `;
                 searchResults.appendChild(productElem);
             });
         }
@@ -616,9 +623,9 @@
             carrinho.forEach(item => {
                 const cartItemElem = document.createElement('li');
                 cartItemElem.innerHTML = `
-                            ${item.name} - Quantidade: ${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}
-                            <span class="remove-item" onclick="removeItem(${item.id})">Remover</span>
-                        `;
+                                        ${item.name} - Quantidade: ${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}
+                                        <span class="remove-item" onclick="removeItem(${item.id})">Remover</span>
+                                    `;
                 cartItemsList.appendChild(cartItemElem);
                 total += item.price * item.quantity;
             });
@@ -679,7 +686,7 @@
             const menu = document.querySelector('.menu');
             menu.classList.toggle('open'); // Alterna a classe "open" para mostrar/esconder o menu
         }
-       
+
     </script>
 
 
