@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
@@ -220,6 +220,7 @@
             text-decoration: none;
             z-index: 1000;
             overflow: hidden;
+            
         }
 
             .whatsapp-btn span {
@@ -248,6 +249,8 @@
             list-style-type: none; /* Remove os pontos */
             padding: 0;
         }
+       
+
 
         /* Rodapé fixo */
         footer {
@@ -557,8 +560,8 @@
 
     <!-- Botão de WhatsApp -->
     <a href="https://wa.me/5588999750300" class="whatsapp-btn" target="_blank">
-        <span>Fale conosco</span>
-        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/WhatsApp_icon.svg/2048px-WhatsApp_icon.svg.png" alt="WhatsApp" width="30" height="30">
+     
+        <img src="https://th.bing.com/th/id/R.24b5c5331d3737ab69b2d4e631b35596?rik=9rxLG2wT6VCazA&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fwhatsapp-png-wazapp-logo-whats-whatsapp-logo-whatsapp-icon-2050.png&ehk=Spk3ZDnOuA%2bBHep8M1XmGD7BVSPDFPev4tIe8OW694Y%3d&risl=&pid=ImgRaw&r=0" alt="WhatsApp" width="45" height="45">
     </a>
 
     <footer>
@@ -571,7 +574,7 @@
 { id: 2, name: 'Tinta Coral - Verde', brand: 'Coral', image: 'https://grupokarina.com.br//public/images/products/43198-grande_original.webp', price: 45.00 },
 { id: 3, name: 'Tinta Sherwin-Williams - Branco', brand: 'Sherwin-Williams', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/209990963f30df491d54c67f00f458eb/43185_f1_grande_original.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kGlpwgcV5_vHMB6kyalt6V-i1VMXP-JlDkli8wp6ps_95M-dMZ3BTO8bnz-Q5JtSi8O7FKgAhencnyzMgf3wq8YuDxPsJWQDeyiLzixzfXfG8hItuphA7y5PW5TOQkWFD7_9_nEPqWI6vRRQ-ROpZZw==', price: 60.00 },
 { id: 4, name: 'Tinta Suvinil - Vermelho', brand: 'Suvinil', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/209990963f30df491d54c67f00f458eb/43185_f1_grande_original.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kGlpwgcV5_vHMB6kyalt6V-i1VMXP-JlDkli8wp6ps_95M-dMZ3BTO8bnz-Q5JtSi8O7FKgAhencnyzMgf3wq8YuDxPsJWQDeyiLzixzfXfG8hItuphA7y5PW5TOQkWFD7_9_nEPqWI6vRRQ-ROpZZw==', price: 55.00 },
-{ id: 5, name: 'Tinta Suvinil - Vermelho', brand: 'Suvinil', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/209990963f30df491d54c67f00f458eb/43185_f1_grande_original.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kGlpwgcV5_vHMB6kyalt6V-i1VMXP-JlDkli8wp6ps_95M-dMZ3BTO8bnz-Q5JtSi8O7FKgAhencnyzMgf3wq8YuDxPsJWQDeyiLzixzfXfG8hItuphA7y5PW5TOQkWFD7_9_nEPqWI6vRRQ-ROpZZw==', price: 55.00 },
+{ id: 5, name: 'Promoção', brand: 'Iquine', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2499790078/aed541a2e3512103ac2076d9c6766a4a/WhatsApp_Image_2024_11_14_at_11_10_58__1_.jpeg?token=MraUHFZrqF3gMDYgogNN-CTPT0fPqtCCD4V7NdHlk7Vu8ayRkeQzJvQVrv5pg6ZHew4XRQ0fflf0NjDLAyo-MvKXTxoU4B8RstydoQDFL7sFeVnxLsw6g01YtfZ5mzvpoTsdwaG-C3N5_94EKtVz5BIqCdPy2zYAhqJc6Wqhz3r-pff_jEw4s6aLaBgsfMtxDho--UXl6iaxg90hgbsXdbCqZwcPLJKD8IjaJoc8W1lwg9a8cMzqbxGp9DwJzMkneIBiB76sYsa5u_o23h7pgBMWLLkzEXkpA720RJgtFXg=',price:10},
         ];
 
 
@@ -586,7 +589,7 @@
                 productElem.innerHTML = `
                                         <img src="${product.image}" alt="${product.name}">
                                         <h3>${product.name}</h3>
-                                        <p>R$ ${product.price.toFixed(2)}</p>
+                                       <!-- <p>R$ ${product.price.toFixed(2)}</p> --><!-- Preço removido -->
                                         <div class="quantity">
                                             <button onclick="decreaseQuantity(${product.id})">-</button>
                                             <input type="number" id="quantity-${product.id}" value="1" min="1">
@@ -594,7 +597,7 @@
                                         </div>
                                         <button onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
                                     `;
-                searchResults.appendChild(productElem);
+               searchResults.appendChild(productElem);
             });
         }
 
@@ -635,14 +638,14 @@
             carrinho.forEach(item => {
                 const cartItemElem = document.createElement('li');
                 cartItemElem.innerHTML = `
-                                        ${item.name} - Quantidade: ${item.quantity} - R$ ${(item.price * item.quantity).toFixed(2)}
+                                        ${item.name} - Quantidade: ${item.quantity}<!-- - R$ ${(item.price * item.quantity).toFixed(2)}-->
                                         <span class="remove-item" onclick="removeItem(${item.id})">Remover</span>
                                     `;
                 cartItemsList.appendChild(cartItemElem);
                 total += item.price * item.quantity;
             });
 
-            cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
+            //cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
         }
 
         function removeItem(productId) {
@@ -652,20 +655,45 @@
         }
 
         function finalizePurchase() {
-            const total = carrinho.reduce((acc, item) => acc + item.price * item.quantity, 0);
-            if (total > 10) {
-                let message = 'Olá, gostaria de finalizar a compra dos seguintes itens:\n\n';
-                carrinho.forEach(item => {
-                    message += `- ${item.name} (quantidade: ${item.quantity}): R$ ${(item.price * item.quantity).toFixed(2)}\n`;
-                });
-                message += `\nTotal: R$ ${total.toFixed(2)}`;
-                const encodedMessage = encodeURIComponent(message);
-                const whatsappLink = `https://wa.me/5588999750300?text=${encodedMessage}`;
-                window.open(whatsappLink, '_blank');
-            } else {
-                alert('O total da compra deve ser acima de R$ 10,00 para finalizar a compra.');
+            if (carrinho.length === 0) {
+                alert('Seu carrinho está vazio. Adicione itens para finalizar a compra.');
+                return;
             }
+
+            // Gerar a mensagem do resumo da compra
+            let message = 'Olá, gostaria de finalizar a compra dos seguintes itens:\n\n';
+            carrinho.forEach(item => {
+                message += `- ${item.name} (quantidade: ${item.quantity})\n`; // Preços removidos
+            });
+            const total = carrinho.reduce((acc, item) => acc + 1* item.quantity, 0);
+            message += `\n Total de itens ${total.toFixed(2)}`;
+
+            // Exibir uma janela de escolha
+            const selectedNumber = prompt(
+                `Escolha o número para enviar a mensagem:\n1. Vendedor Elvis: +55 88 99863-1283\n2. Vendedora Naiane: +55 88 99741-9360\n3. Vendedora Tatiane: +55 88 99863-12833\n\nDigite 1, 2 ou 3:`
+            );
+
+            let whatsappLink = '';
+
+            switch (selectedNumber) {
+                case '1':
+                    whatsappLink = `https://wa.me/5588999991111?text=${encodeURIComponent(message)}`;
+                    break;
+                case '2':
+                    whatsappLink = `https://wa.me/5588999992222?text=${encodeURIComponent(message)}`;
+                    break;
+                case '3':
+                    whatsappLink = `https://wa.me/5588999993333?text=${encodeURIComponent(message)}`;
+                    break;
+                default:
+                    alert('Número inválido! Por favor, tente novamente.');
+                    return; // Sai da função sem redirecionar
+            }
+
+            // Redireciona para o WhatsApp com o número escolhido
+            window.open(whatsappLink, '_blank');
         }
+
 
         displayProducts(products);
         updateCart();
