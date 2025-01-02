@@ -1,0 +1,790 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Materiais de Construção</title>
+    <style>
+        /* Reset básico */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Cabeçalho e menu */
+        header {
+            background-color: #FF5A00;
+            padding: 1%;
+            color: #fff;
+            text-align: center;
+        }
+
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 1% 0;
+            flex-wrap height: 100%;
+        }
+
+
+            .navbar a {
+                color: #fff;
+                padding: 1% 2%;
+                text-decoration: none;
+                font-size: 16px;
+                position: relative;
+            }
+
+                .navbar a:hover {
+                    background-color: #FF5A00;
+                }
+
+            .navbar .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .navbar .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #333;
+                min-width: 100%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+                .navbar .dropdown-content a {
+                    color: white;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                    text-align: left;
+                }
+
+                    .navbar .dropdown-content a:hover {
+                        background-color: #FF5A00;
+                    }
+
+            .navbar .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+        /* Barra de pesquisa */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 2%;
+        }
+
+            .search-bar input[type="text"] {
+                width: 60%;
+                padding: 1%;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                border-radius: 5px 0 0 5px;
+            }
+
+            .search-bar button {
+                padding: 10px 20px;
+                background-color: #FF5A00;
+                border: none;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 0 5px 5px 0;
+            }
+
+        /* Carrossel de imagens */
+        .carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin: 2% 0;
+        }
+
+            .carousel img {
+                width: 100%;
+                height: auto;
+                display: none;
+            }
+
+                .carousel img.active {
+                    display: block;
+                }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+            .carousel-controls button {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                border: none;
+                padding: 1%;
+                cursor: pointer;
+            }
+
+        /* Produtos */
+        #searchResults {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2%;
+        }
+
+        .product {
+            width: 35%;
+            padding: 1%;
+            border: 1px solid #ddd;
+            margin: 1% auto;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+
+            .product img {
+                width: 100%;
+                height: auto;
+                border-radius: 8px;
+            }
+
+            .product button {
+                background-color: #FF5A00;
+                color: #fff;
+                padding: 2%;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 1%;
+            }
+
+        /* Quantidade do item */
+        .quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2%;
+        }
+
+            .quantity button {
+                background-color: #FF5A00;
+                color: #fff;
+                border: none;
+                padding: 2% 4%;
+                font-size: 18px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+            .quantity input {
+                width: 25%;
+                text-align: center;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                margin: 0 5%;
+            }
+
+        /* Botão flutuante do WhatsApp */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+            .whatsapp-btn span {
+                right: 50px;
+                font-size: 14px;
+            }
+
+            .whatsapp-btn:hover span {
+                opacity: 1;
+            }
+
+        /* Carrinho de compras */
+        #cart {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #cartItems {
+            list-style-type: none; /* Remove os pontos */
+            padding: 0;
+        }
+
+
+
+        /* Rodapé fixo */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%; /* Garante que ocupe toda a largura */
+            box-sizing: border-box; /* Inclui padding na largura total */
+        }
+
+        /* Estilo para o menu no desktop (horizontal) */
+        .navbar {
+            background-color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1% 2%;
+            position: relative;
+            text-align: center;
+        }
+
+            .navbar .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .navbar .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #333;
+                min-width: 16%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+                .navbar .dropdown-content a {
+                    color: white;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                    text-align: left;
+                }
+
+                    .navbar .dropdown-content a:hover {
+                        background-color: #FF5A00;
+                    }
+
+            .navbar .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+        .menu {
+            display: flex; /* Horizontal no desktop */
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            margin-left: 20%;
+            flex-direction: row;
+        }
+
+            .menu li {
+                margin: 0 10px;
+                position: relative;
+            }
+
+                .menu li a {
+                    color: #fff;
+                    text-decoration: none;
+                    padding: 5px 10px;
+                    display: block;
+                }
+
+                    .menu li a:hover {
+                        background-color: #FF5A00;
+                    }
+
+        /* Botão hambúrguer - escondido no desktop */
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Estilo para telas pequenas (menu hambúrguer) */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block; /* Mostra o botão hambúrguer */
+                z-index: 1001;
+            }
+
+            .menu {
+                display: block; /* Inicialmente escondido */
+                position: fixed;
+                top: 0;
+                left: -1000px; /* Fora da tela */
+                height: 100%;
+                width: 100%; /* Largura do menu */
+                background-color: #333;
+                z-index: 1000;
+                list-style: none;
+                padding: 2% 1%;
+                transition: left 0.3s ease-in-out; /* Animação de transição */
+                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+                flex-direction: column;
+            }
+
+                .menu li {
+                    margin-right: 50%;
+                    text-align: center;
+                }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .menu.show {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: relative;
+                background-color: #333;
+                box-shadow: none;
+            }
+
+            .menu li a {
+                font-size: 18px;
+                padding: 10px;
+                color: #fff;
+                text-decoration: none;
+            }
+
+                .menu li a:hover {
+                    background-color: #FF5A00;
+                }
+
+            .menu.open {
+                left: 0; /* Desliza para dentro da tela */
+            }
+        }
+
+
+
+
+
+        .remove-item {
+            color: red;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .finish-purchase-btn {
+            background-color: #FF5A00;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img justify-content: space-between;" width="200" height="70" src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/aaa44ed47126938abbd7a58d00d0dec5/rabelo.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrGrIGdKOz0L2Jhqq2GsLWg1jUQ2v-o0EAFJNEW8Jdblp6xNt2fIAwZ9gQ2rCRVIE7SSoxu0Rdu-FoNYOXSZu8ik5uTK2N7cp6L8wpgPw4NzlHjRZBd7rDuwWfTPURaHW_s=">
+        <h1>Materiais de Construção</h1>
+        <p>Bem-vindo à nossa loja online de materiais de construção!</p>
+    </header>
+
+    <nav class="navbar">
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            &#9776; <!-- Ícone de três tracinhos -->
+        </div>
+        <ul class="menu">
+            <li class="dropdown">
+                <a href="index.html">Sobre a loja</a>
+                <div class="dropdown-content">
+                    <a href="index.html" onclick="filterByBrand('Início')">Início</a>
+                    <a href="localizacao.html" onclick="filterByBrand('Localização')">Localização</a>
+                    <a href="promocoes.html" onclick="filterByBrand('Promoções')">Promoções</a>
+                </div>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="tintas.html">Tintas</a>
+                <div class="dropdown-content">
+
+                    <a href="eucatex.html" onclick="filterByBrand('Eucatex')">Eucatex</a>
+                    <a href="fortnil.html" onclick="filterByBrand('Fortnil')">Fortnil</a>
+                    <a href="hidracor.html" onclick="filterByBrand('Hidrcor')">Hidracor</a>
+                    <a href="sbras.html" onclick="filterByBrand('Sbras')">Sbras</a>
+                    <a href="solut.html" onclick="filterByBrand('Solut')">Solut</a>
+                    <a href="suvinil.html" onclick="filterByBrand('Suvinil')">Suvinil</a>
+                    <a href="luxlar.html" onclick="filterByBrand('Luxlar')">Luxlar</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="ceramica.html">Cerâmicas</a>
+                <div class="dropdown-content">
+                    <a href="arielle.html" onclick="filterByBrand('Arielle')">Arielle</a>
+                    <a href="cristofolette.html" onclick="filterByBrand('Cristofolette')">Cristofolette</a>
+                    <a href="delta.html" onclick="filterByBrand('Delta')">Delta</a>
+
+                    <a href="incenor.html" onclick="filterByBrand('Incenor')">Incenor</a>
+                    <a href="karina.html" onclick="filterByBrand('Karina')">Karina</a>
+                    <a href="pointer.html" onclick="filterByBrand('Pointer')">Pointer</a>
+                    <a href="realce.html" onclick="filterByBrand('Realce')">Realce</a>
+                    <a href="tecnogres.html" onclick="filterByBrand('Tecnogres')">Tecnogres</a>
+
+
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="lustres.html">Lustres</a>
+                <div class="dropdown-content">
+                    <a href="gauchos.html" onclick="filterByBrand('Gauchos Luminárias')">Gaucho luminárias</a>
+                    <a href="taschibras.html" onclick="filterByBrand('Taschibras')">Taschibras</a>
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="banheiro.html">Banheiro</a>
+                <div class="dropdown-content">
+                    <a href="armario.html" onclick="filterByBrand('Armario')">Armário</a>
+                    <a href="kitacesso.html" onclick="filterByBrand('Kit Acesso')">Kit Acesso</a>
+
+                    <a href="registro.html" onclick="filterByBrand('Registros')">Registros</a>
+                    <a href="sanitario.html" onclick="filterByBrand('Sanitário')">Sanitário</a>
+                    <a href="torneira.html" onclick="filterByBrand('Torneira')">Torneira</a>
+                </div>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="construcao.html">Construção</a>
+                <div class="dropdown-content">
+                    <a href="eletrica.html" onclick="filterByBrand('Elétrica')">Elétrica</a>
+                    <a href="hidraulica.html" onclick="filterByBrand('Hidráulica')">Hidráulica</a>
+                    <a href="reparos.html" onclick="filterByBrand('Reparos')">Reparos</a>
+                    <a href="telhado.html" onclick="filterByBrand('Telhado')">Telhado</a>
+
+
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="decoracao.html">Decoração</a>
+                <div class="dropdown-content">
+                    <a href="vaso.html" onclick="filterByBrand('Vaso')">Vaso</a>
+                    <a href="porta.html" onclick="filterByBrand('Porta')">Porta</a>
+                    <a href="parede.html" onclick="filterByBrand('Parede')">Parede</a>
+
+
+
+                </div>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="cozinha.html">Cozinha</a>
+                <div class="dropdown-content">
+                    <a href="pia.html" onclick="filterByBrand('Pia')">Pia</a>
+                    <a href="armario2.html" onclick="filterByBrand('Armário')">Armário</a>
+
+
+
+
+                </div>
+            </li>
+
+
+        </ul>
+
+
+    </nav>
+
+
+
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar produto...">
+        <button onclick="searchProduct()">Pesquisar</button>
+    </div>
+
+    <div class="carousel">
+        <img src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/d0290de423d5840801fd935c0c8169bd/Banner_para_site_ilustrado_para_promo__o_do_dia_do_cliente.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrFZFGCQ3LTzKoiOjyDSpfxQy1_Jzpx0852q0KXGS5kOfcTItQ7uuxNoXerjRsw2AU28Q9VLGoN7f5hyy2XaIyt8gzFzgAZKB2Wsa6RzU23VgFbk3PtoiPd8K4G8PueVz-LxCDBpRewgNhtde9w3Pwv6v2a6qZclZ-1_F5ffdKWXaULGD0DiaWNDE1XUz4icya590wmYU6jeuMnoDHqSZs2G" class="active" alt="Imagem 1">
+        <img src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/434947189c7fb9fa7167549fcebcbb61/2_2_.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrFl9vBZ7AADhsEj_w9Ol7DOtB2-EHDMInzaenoc63U6csh2XcJa-UjgjFAu_zY0ys6GAcOfCrl8-7ClajuL1xmO-crsJO6OE9aqBh1hDINU8QX0L1lrfr4ITUzizOt_Npo=" alt="Imagem 2">
+        <img src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/f017c0a605fe33a5a64c4b74c24b7393/1_3_.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrFuvB1OV-Fo1IPriCb3Nh8mE6cmwY_vdLAvyKHWu5bfjg6nIKPId3KmH0gQG7Wz6fwrVqQZj6hdWdbLHCyKr8NgAqDrA6j0Mx1AE7sVrTIkOwB5-morQHX_s8ffECukFjU=" alt="Imagem 3">
+        <div class="carousel-controls">
+            <button onclick="prevSlide()">❮</button>
+            <button onclick="nextSlide()">❯</button>
+        </div>
+    </div>
+
+    >
+
+
+
+    <div id="searchResults"></div>
+
+    <!-- Carrinho de compras -->
+    <div id="cart">
+        <h2>Carrinho de Compras</h2>
+        <ul id="cartItems"></ul>
+        <p id="cartTotal"></p>
+        <button class="finish-purchase-btn" onclick="finalizePurchase()">Finalizar Compra</button>
+    </div>
+
+    <!-- Botão de WhatsApp -->
+    <a href="https://wa.me/5588999750300" class="whatsapp-btn" target="_blank">
+
+        <img src="https://th.bing.com/th/id/R.24b5c5331d3737ab69b2d4e631b35596?rik=9rxLG2wT6VCazA&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fwhatsapp-png-wazapp-logo-whats-whatsapp-logo-whatsapp-icon-2050.png&ehk=Spk3ZDnOuA%2bBHep8M1XmGD7BVSPDFPev4tIe8OW694Y%3d&risl=&pid=ImgRaw&r=0" alt="WhatsApp" width="45" height="45">
+    </a>
+
+    <footer>
+        <p>&copy; 2024 Loja de Materiais de Construção. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        const products = [
+
+            { id: 422, name: 'Armario com Espelho BRANCO Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/557140e33b92fef6c66a94c033b0c19e/Post_fa_a_sua_encomenda_j_ias_bege__69_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kbrO6dQomvqbygwal5xr3gxPf20IOtiRDY4kO9uInmZfRziwZrGRVJo8a85OTjI0cJ6UpNpgYWo44RNeLEXFPj7aZJP9al5YbZoY1sxJInypVqHqdaEqu_NVpurD3BPvrCcRcYpWgcM5_PVsImqsagtzw1SVjfAgBMJe0AcVUVCc=', price: 10 },
+            { id: 423, name: 'Armario com Espelho CINZA CLARO Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/8fd91f9c59943c89368ed687d896e7f5/Post_fa_a_sua_encomenda_j_ias_bege__70_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kXvJ3GAL78vvIIuAp1Ftmml7637Cd5-rRbM5cxehtGS1pQeurTmrG2dToLlAv6NCFajuY4eatUdbZbCnewmjBOXhWb4mZ2fOICyuwJleBk-qex2zlGwOLT8J-bH-Tn7ONaVz-E2wzP4bW8wFNhiDxCqkmkZ1ipYBKO8nwr6zc6l0=', price: 10 },
+            { id: 424, name: 'Armario com Espelho BEGE Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/50411dd2a486c9b9b3cffadcb710a6a4/Post_fa_a_sua_encomenda_j_ias_bege__71_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kjlPV1qhR_j5_VdjqW8608jLA18c_cCRfeb-FO9fOSBkYn5RRQtlNzWMAe2a83nbc1HryUjap9dqzFs4cCH_XfRpxrt5sD9RTW-SfbCe693h263cWt6WdbWNKcVFvHCFpV3LSZha6MP44-zx_VNNPeJPt8P3nYOpi_aZ-hP_Gz20=', price: 10 },
+            { id: 425, name: 'Armario com Espelho CARAMELO Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/ce6e53b79fb52c81ed2c83a196a1823a/Post_fa_a_sua_encomenda_j_ias_bege__67_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kSpxLIz30gefEpteEvybCFqXIBBvR-E1iabnmAMHsQ9_J8IiiHuyFEiAPoTScRAeFj3FjaxsfTBVC8Jy7jUG60g9X3rLP6xwj2rsIu4gPJJtOphvm2AantsVQOxJ9VtAtUb5SR_55u4Zcx-VDIo3WGpFlBDJTU1q9q6Kx33Zkc4g=', price: 10 },
+            { id: 426, name: 'Armario com Espelho BR/CROM Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/ea98cc3d8ef2a5df7c64e60037de755f/Post_fa_a_sua_encomenda_j_ias_bege__72_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kKRU0d2aIcemcRW4527YvyiTdTfOIauMcsXoMYSVvlQ9fVYtieZblT50_aP_dZZDWpkqDCX_AaXg0ELO1B13u59CUxDWe2Yi4xq1kHmONSVkpWqsFSIAY-RHJP_YOYN1iXnQ0IA5CjkePAQYw0QYOpwYdxnDPDNODLGMKgdtXpBM=', price: 10 },
+            { id: 427, name: 'Armario com Espelho PT/CROM Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/4951f1c2f69197d1ab8c865dea6aa047/Post_fa_a_sua_encomenda_j_ias_bege__74_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kCrSUHfUvuobRQZ45thu8MEk8KgsCIpONStDGD-fTtOL5jTRZ3fFo02Dc0rQImJUS8wCcFFqECDQib7dI9150SDS2KYBVXE9koeuhfYtj8DVFjpfKEIKLaoURX-e2pF0mV9uPJp0fDUKYAs8Is5tptY9knmN-X73NZ6J1jZJKWyU=', price: 10 },
+            { id: 428, name: 'Armario com Espelho CZ/CROM Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/ba36819941c9c297c508696e39b51e3a/Post_fa_a_sua_encomenda_j_ias_bege__73_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kJEnU3fqVLAd5LWDm5hTpx-VmnNQYO3zsXQNOqQ8Ovvak-12ls0Rt8EuorvXYzsETkkKY-KrDNedqL1KmvARTA7BW2j6OjbQMJjJ7mCHQfE_FbqKX-_iguX_SV3YxHYlIFWQdnHWEyoxc5rN1ZD2-iMabVOLhPw7YE-G_sFS_Xn0=', price: 10 },
+            { id: 429, name: 'Armario C/Espelho + Gaveta BR/CROM Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/e1730d544d48819bef1672266d30484f/Post_fa_a_sua_encomenda_j_ias_bege__75_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35k1jiyj-s4b9QLC6xHJSp9Grh7x1dJg8NgottBmi6PL6Qfaw8wCf5R3JBBS8C-gxmPF1Sit0Y2uFYdBqLc9CE3pr9QKv1ocQWZSHE0r1ajjK54VgsQW1fSqgssDnn0DJPmDVR6mofYNjPhi6iz7bisHfuf9bwG_24JsX3RWV779Rg=', price: 10 },
+            { id: 430, name: 'Armario C/Espelho + Gaveta CZ/CROM Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/e91a0b9c8bbc6de9609329a65b2ef526/Post_fa_a_sua_encomenda_j_ias_bege__76_.png?token=SkD8Gmn4WCPib3vWrO4tIjtf0YxXZqRK2w4PLcY5p-THsdsiBPRLuFUkYrnlkDEW9vzNbihIeA2qh_Z0vKlbFTTOPBR_6j9cWO11LhWig3kD1m4_kmWE_3fABkS8QboKpn35ZP6ZQebKySXEr62G3A4A8gm0-R9-GSua72_aUxOSDO3LT2IFFRfkdwo_5AH6MOfz5cwgNqhDuS7jBB48zkKmnBISMfChuUh0X-86Z2rcfIcXyz5Xx4X53il-lTWEzdyJR_It9AHR5S1VgQVLjQ==', price: 10 },
+            { id: 431, name: 'Armario C/Espelho + Gaveta PT/CROM Herc', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/ba41112d138ecaa85c9759be6534c4c1/Post_fa_a_sua_encomenda_j_ias_bege__77_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kihGdrzMGApEKYkCnuk3yle9MzzexK8kFDIMf0rnmpac46cvrLy7bKM4uXUYDdvHKbAWx47Z4NWWcly8P2B74JJTbWyR1JcRrlRM6Zn4ztW7zwr24UO6bekFp-_bu31s7VYvf3kWlQHH-_tYlGwiQYU0cLIXbJpX9EVywuxabKfA=', price: 10 },
+            { id: 432, name: 'Armario com Espelho BR/ CROM Astra', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/0a89bef54ba151aec417b77d9dd67eee/Post_fa_a_sua_encomenda_j_ias_bege__84_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35ke6294DQAzWFbiQbgN0A42o7C_UToGu5LGV4DyAmqw9_SpT6BoPLei3_cBnB53o9a6b74kQG8aKWXaNxJyhNgBU9gTFd7kNJiOVCFq3kInsu_oqcaE0UK_UnPyrLdNeixeHIXhuXCPZYq2i6dpcwTw--cAO1XP5IArO_ghCif2bM=', price: 10 },
+            { id: 433, name: 'Armario Aluminio C/Espelho 29x39x11,5 Astra', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/1d36ea52c21a09c784a36da959efa94e/Post_fa_a_sua_encomenda_j_ias_bege__79_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kbz6jbk9nv8k_jHrS5Zu9Ug764QVdjwsFGYFO55auWdFOufF-VF4ihfVSL4CURlCA4fht-cmJlhfZUkHqFQRB0P2NAhFj74dVOzrveMVPDjBc7vRN1WMRtDRV_uHgmDKPygVfAhM78mRfUdwnDZxD2fbW1cSzR-HrC4XavNMwFqo=', price: 10 },
+            { id: 434, name: 'Armario Aluminio C/Espelho Preto 35x45x11,5 Astra', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/78df63a0fec7131b15c477264f025ab7/Post_fa_a_sua_encomenda_j_ias_bege__80_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kEWpqpiSbhboD7AXu1xDPrT1VBUb-ykvAabwD2zdOTV3McD7LjwxrZxZpVgaCHQ8PaOEFb3ldfAWvMQw7qdgzkJts5q_a4ULHHq830VCoWseRUUBr9q0LDQeTTtmTmO25LnHNO5rKYB_7Lv0lOcRyfkwv7m-Jl42_utwKA2XJtkY=', price: 10 },
+            { id: 435, name: 'Armario Aluminio C/Espelho 54x45x11,5 Astra', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/8787d28d47759b84b339be6e37e0ed8a/Post_fa_a_sua_encomenda_j_ias_bege__81_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kxrLj2SFNNgbFWxnfYGGEdb9OjLhFuGVMrDvA6jt4u_ee-0bK08md4fBr0JZUQG5EC6S-Bmoli0XXMHq6gcRibGD-ujwXPU6MELtd9AlA3WIs3xhZo_pWj_8F1H_5VnRDFiv52mBkHBMlKvOXuLXOrDnbnonKlRrCfTnKkHwHnLA=', price: 10 },
+            { id: 436, name: 'Armario Aluminio C/Espelho 73x45x11,5 Astra', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/b0f9ed30f0288991c72b201dc34a4ff1/Post_fa_a_sua_encomenda_j_ias_bege__82_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kqdIqiqL6hZSndt0Wk-jx0vbFLJgQG6bQrAbLAfPegw5QZgl1M0xLibztUhtLKI3IxrteDUGLX_h5_T41sAmSb2O3PvVtx-ITJlYfkaD-H-ZNGRmKPV5EYgDfvaTXEFMFrSv-o-In1L97gYGXbKufOjcEPvTwgujb1JgCKLba-aU=', price: 10 },
+            { id: 437, name: 'Armario com Espelho BRANCO Duda', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/b119bf0fa2bf6f3cb586504dc7e20959/Post_fa_a_sua_encomenda_j_ias_bege__78_.png?expiry_token=5WaHZRdGG3LkUVQGy3SZ-zdRtq89aJeottSBaF_Hii8EGDVBG-vnLc5ZfL_2GiKosWMOCkHArMcc8LorETHcZ1uDx-lJZviewrHYfVlppY4c2J-r8hsPTC2jluuKq4Taz3elEOCCOLOR4cAZvVimay-uAFQlVogvMf_CGtAXsiTSXJ7cUJwMn0M1wrj_j2VjbsHvW7ihhPP1VVuCRvBh0hSTpR47xJk4S8zkvtewUS8NZMdBbQ_U4Xhb5baJbKpo', price: 10 },
+            { id: 438, name: 'Armario com Espelho CINZA Duda', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/fae5b934149ed43b59a06b26b4fead50/Post_fa_a_sua_encomenda_j_ias_bege__85_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35khYX9BcJ1mIQ1lOyTr79YCE266R-gHVFCwOK0SBnumsr5C3H18Ncp1HjYrGCXmpz0uP7-c2hOzfrr36DEx2PyDuCR5RbNsOtAekOREpI687dbInsUNtagaA2idIeU1n-Kj-9Z3DeujUeCJe-XmHGU_MNW8WaawbHXjhxiSafvv7c=', price: 10 },
+            { id: 439, name: 'Armario com Espelho PRETO Cinza', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/210e9641044093f8e80e6d5e3322a750/Post_fa_a_sua_encomenda_j_ias_bege__83_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kxYenZMMmddFTtIJRmAzXCPS31QmCeu-iZpWdqgMDmxbXJMAXdxjqCJKNHS5f19zkmfJRWnuB_cyS1L4vjrIi92ETbcdtJy7vLQvEGcEphMdWepb58WrJuPNqTA9IG-t1N2RG11dRX4qRkoWg7dmnR70xqy_f96w4rA5PCKChYPA=', price: 10 },
+
+
+
+        ];
+
+
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+        function displayProducts(products) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+            products.forEach(product => {
+                const productElem = document.createElement('div');
+                productElem.className = 'product';
+                productElem.innerHTML = `
+                                                <img src="${product.image}" alt="${product.name}">
+                                                <h3>${product.name}</h3>
+                                               <!-- <p>R$ ${product.price.toFixed(2)}</p> --><!-- Preço removido -->
+                                                <div class="quantity">
+                                                    <button onclick="decreaseQuantity(${product.id})">-</button>
+                                                    <input type="number" id="quantity-${product.id}" value="1" min="1">
+                                                    <button onclick="increaseQuantity(${product.id})">+</button>
+                                                </div>
+                                                <button onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
+                                            `;
+                searchResults.appendChild(productElem);
+            });
+        }
+
+        function addToCart(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            const quantity = parseInt(quantityInput.value);
+            const product = products.find(p => p.id === productId);
+
+            const existingItem = carrinho.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                carrinho.push({ ...product, quantity });
+            }
+
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            updateCart();
+        }
+
+        function increaseQuantity(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+
+        function decreaseQuantity(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        }
+
+        function updateCart() {
+            const cartItemsList = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            cartItemsList.innerHTML = '';
+            let total = 0;
+
+            carrinho.forEach(item => {
+                const cartItemElem = document.createElement('li');
+                cartItemElem.innerHTML = `
+                                                ${item.name} - Quantidade: ${item.quantity}<!-- - R$ ${(item.price * item.quantity).toFixed(2)}-->
+                                                <span class="remove-item" onclick="removeItem(${item.id})">Remover</span>
+                                            `;
+                cartItemsList.appendChild(cartItemElem);
+                total += item.price * item.quantity;
+            });
+
+            //cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
+        }
+
+        function removeItem(productId) {
+            carrinho = carrinho.filter(item => item.id !== productId);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            updateCart();
+        }
+
+        function finalizePurchase() {
+            if (carrinho.length === 0) {
+                alert('Seu carrinho está vazio. Adicione itens para finalizar a compra.');
+                return;
+            }
+
+            // Gerar a mensagem do resumo da compra
+            let message = 'Olá, gostaria de finalizar a compra dos seguintes itens:\n\n';
+            carrinho.forEach(item => {
+                message += `- ${item.name} (quantidade: ${item.quantity})\n`; // Preços removidos
+            });
+            const total = carrinho.reduce((acc, item) => acc + 1 * item.quantity, 0);
+            message += `\n Total de itens ${total.toFixed(2)}`;
+
+            // Exibir uma janela de escolha
+            const selectedNumber = prompt(
+                `Escolha o número para enviar a mensagem:\n1. Vendedor Elvis: +55 88 99863-1283\n2. Vendedora Naiane: +55 88 99741-9360\n3. Vendedora Tatiane: +55 88 99863-12833\n\nDigite 1, 2 ou 3:`
+            );
+
+            let whatsappLink = '';
+
+           switch (selectedNumber) {
+    case '1':
+        whatsappLink = `https://wa.me/5588998631283?text=${encodeURIComponent(message)}`;
+        break;
+    case '2':
+        whatsappLink = `https://wa.me/5588997419360?text=${encodeURIComponent(message)}`;
+        break;
+    case '3':
+        whatsappLink = `https://wa.me/55889986312833?text=${encodeURIComponent(message)}`;
+        break;
+    default:
+        alert('Número inválido! Por favor, tente novamente.');
+        return; // Sai da função sem redirecionar
+}
+
+            // Redireciona para o WhatsApp com o número escolhido
+            window.open(whatsappLink, '_blank');
+        }
+
+
+        displayProducts(products);
+        updateCart();
+    </script>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('open'); // Alterna a classe "open" para mostrar/esconder o menu
+        }
+    </script>
+
+    <script>
+        // Função de busca corrigida
+        function searchProduct() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(searchInput) ||
+                product.brand.toLowerCase().includes(searchInput)
+            );
+            if (filteredProducts.length > 0) {
+                displayProducts(filteredProducts);
+            } else {
+                document.getElementById('searchResults').innerHTML = '<p>Nenhum produto encontrado.</p>';
+            }
+        }
+
+        // Função do menu hamburguer melhorada
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('open'); // Alterna a classe "open" para mostrar/esconder o menu
+        }
+
+
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.carousel img');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        // Transição automática a cada 3 segundos
+        setInterval(nextSlide, 5000);
+
+        // Mostra o primeiro slide ao carregar
+        showSlide(currentIndex);
+
+    </script>
+
+
+</body>
+</html>

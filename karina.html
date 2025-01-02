@@ -1,0 +1,884 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja de Materiais de Construção</title>
+    <style>
+        /* Reset básico */
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Estilos gerais */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Cabeçalho e menu */
+        header {
+            background-color: #FF5A00;
+            padding: 1%;
+            color: #fff;
+            text-align: center;
+        }
+
+
+        .navbar {
+            display: flex;
+            justify-content: center;
+            background-color: #333;
+            padding: 1% 0;
+            flex-wrap height: 100%;
+        }
+
+
+            .navbar a {
+                color: #fff;
+                padding: 1% 2%;
+                text-decoration: none;
+                font-size: 16px;
+                position: relative;
+            }
+
+                .navbar a:hover {
+                    background-color: #FF5A00;
+                }
+
+            .navbar .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .navbar .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #333;
+                min-width: 100%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+                .navbar .dropdown-content a {
+                    color: white;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                    text-align: left;
+                }
+
+                    .navbar .dropdown-content a:hover {
+                        background-color: #FF5A00;
+                    }
+
+            .navbar .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+        /* Barra de pesquisa */
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 2%;
+        }
+
+            .search-bar input[type="text"] {
+                width: 60%;
+                padding: 1%;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                border-radius: 5px 0 0 5px;
+            }
+
+            .search-bar button {
+                padding: 10px 20px;
+                background-color: #FF5A00;
+                border: none;
+                color: #fff;
+                font-size: 16px;
+                cursor: pointer;
+                border-radius: 0 5px 5px 0;
+            }
+
+        /* Carrossel de imagens */
+        .carousel {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            margin: 2% 0;
+        }
+
+            .carousel img {
+                width: 100%;
+                height: auto;
+                display: none;
+            }
+
+                .carousel img.active {
+                    display: block;
+                }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+            .carousel-controls button {
+                background-color: rgba(0, 0, 0, 0.5);
+                color: #fff;
+                border: none;
+                padding: 1%;
+                cursor: pointer;
+            }
+
+        /* Produtos */
+        #searchResults {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 2%;
+        }
+
+        .product {
+            width: 35%;
+            padding: 1%;
+            border: 1px solid #ddd;
+            margin: 1% auto;
+            text-align: center;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+
+            .product img {
+                width: 100%;
+                height: auto;
+                border-radius: 8px;
+            }
+
+            .product button {
+                background-color: #FF5A00;
+                color: #fff;
+                padding: 2%;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 1%;
+            }
+
+        /* Quantidade do item */
+        .quantity {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 2%;
+        }
+
+            .quantity button {
+                background-color: #FF5A00;
+                color: #fff;
+                border: none;
+                padding: 2% 4%;
+                font-size: 18px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+            .quantity input {
+                width: 25%;
+                text-align: center;
+                font-size: 16px;
+                border: 1px solid #ddd;
+                margin: 0 5%;
+            }
+
+        /* Botão flutuante do WhatsApp */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            text-decoration: none;
+            z-index: 1000;
+            overflow: hidden;
+        }
+
+            .whatsapp-btn span {
+                right: 50px;
+                font-size: 14px;
+            }
+
+            .whatsapp-btn:hover span {
+                opacity: 1;
+            }
+
+        /* Carrinho de compras */
+        #cart {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 10px;
+            width: 90%;
+            max-width: 600px;
+            margin: 20px auto;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        #cartItems {
+            list-style-type: none; /* Remove os pontos */
+            padding: 0;
+        }
+
+
+
+        /* Rodapé fixo */
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+            width: 100%; /* Garante que ocupe toda a largura */
+            box-sizing: border-box; /* Inclui padding na largura total */
+        }
+
+        /* Estilo para o menu no desktop (horizontal) */
+        .navbar {
+            background-color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1% 2%;
+            position: relative;
+            text-align: center;
+        }
+
+            .navbar .dropdown {
+                position: relative;
+                display: inline-block;
+            }
+
+            .navbar .dropdown-content {
+                display: none;
+                position: absolute;
+                background-color: #333;
+                min-width: 16%;
+                box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+                z-index: 1;
+            }
+
+                .navbar .dropdown-content a {
+                    color: white;
+                    padding: 12px 16px;
+                    text-decoration: none;
+                    display: block;
+                    text-align: left;
+                }
+
+                    .navbar .dropdown-content a:hover {
+                        background-color: #FF5A00;
+                    }
+
+            .navbar .dropdown:hover .dropdown-content {
+                display: block;
+            }
+
+        .menu {
+            display: flex; /* Horizontal no desktop */
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            margin-left: 20%;
+            flex-direction: row;
+        }
+
+            .menu li {
+                margin: 0 10px;
+                position: relative;
+            }
+
+                .menu li a {
+                    color: #fff;
+                    text-decoration: none;
+                    padding: 5px 10px;
+                    display: block;
+                }
+
+                    .menu li a:hover {
+                        background-color: #FF5A00;
+                    }
+
+        /* Botão hambúrguer - escondido no desktop */
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        /* Estilo para telas pequenas (menu hambúrguer) */
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: block; /* Mostra o botão hambúrguer */
+                z-index: 1001;
+            }
+
+            .menu {
+                display: block; /* Inicialmente escondido */
+                position: fixed;
+                top: 0;
+                left: -1000px; /* Fora da tela */
+                height: 100%;
+                width: 100%; /* Largura do menu */
+                background-color: #333;
+                z-index: 1000;
+                list-style: none;
+                padding: 2% 1%;
+                transition: left 0.3s ease-in-out; /* Animação de transição */
+                box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+                flex-direction: column;
+            }
+
+                .menu li {
+                    margin-right: 50%;
+                    text-align: center;
+                }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .menu.show {
+                display: block;
+            }
+
+            .dropdown-content {
+                position: relative;
+                background-color: #333;
+                box-shadow: none;
+            }
+
+            .menu li a {
+                font-size: 18px;
+                padding: 10px;
+                color: #fff;
+                text-decoration: none;
+            }
+
+                .menu li a:hover {
+                    background-color: #FF5A00;
+                }
+
+            .menu.open {
+                left: 0; /* Desliza para dentro da tela */
+            }
+        }
+
+
+
+
+
+        .remove-item {
+            color: red;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .finish-purchase-btn {
+            background-color: #FF5A00;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <img justify-content: space-between;" width="200" height="70" src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/aaa44ed47126938abbd7a58d00d0dec5/rabelo.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrGrIGdKOz0L2Jhqq2GsLWg1jUQ2v-o0EAFJNEW8Jdblp6xNt2fIAwZ9gQ2rCRVIE7SSoxu0Rdu-FoNYOXSZu8ik5uTK2N7cp6L8wpgPw4NzlHjRZBd7rDuwWfTPURaHW_s=">
+        <h1>Materiais de Construção</h1>
+        <p>Bem-vindo à nossa loja online de materiais de construção!</p>
+    </header>
+
+    <nav class="navbar">
+
+        <div class="menu-toggle" onclick="toggleMenu()">
+            &#9776; <!-- Ícone de três tracinhos -->
+        </div>
+        <ul class="menu">
+            <li class="dropdown">
+                <a href="index.html">Sobre a loja</a>
+                <div class="dropdown-content">
+                    <a href="index.html" onclick="filterByBrand('Início')">Início</a>
+                    <a href="localizacao.html" onclick="filterByBrand('Localização')">Localização</a>
+                    <a href="promocoes.html" onclick="filterByBrand('Promoções')">Promoções</a>
+                </div>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="tintas.html">Tintas</a>
+                <div class="dropdown-content">
+
+                    <a href="eucatex.html" onclick="filterByBrand('Eucatex')">Eucatex</a>
+                    <a href="fortnil.html" onclick="filterByBrand('Fortnil')">Fortnil</a>
+                    <a href="hidracor.html" onclick="filterByBrand('Hidrcor')">Hidracor</a>
+                    <a href="sbras.html" onclick="filterByBrand('Sbras')">Sbras</a>
+                    <a href="solut.html" onclick="filterByBrand('Solut')">Solut</a>
+                    <a href="suvinil.html" onclick="filterByBrand('Suvinil')">Suvinil</a>
+                    <a href="luxlar.html" onclick="filterByBrand('Luxlar')">Luxlar</a>
+
+
+                </div>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="ceramica.html">Cerâmicas</a>
+                <div class="dropdown-content">
+                    <a href="arielle.html" onclick="filterByBrand('Arielle')">Arielle</a>
+                    <a href="cristofolette.html" onclick="filterByBrand('Cristofolette')">Cristofolette</a>
+                    <a href="delta.html" onclick="filterByBrand('Delta')">Delta</a>
+
+                    <a href="incenor.html" onclick="filterByBrand('Incenor')">Incenor</a>
+                    <a href="karina.html" onclick="filterByBrand('Karina')">Karina</a>
+                    <a href="pointer.html" onclick="filterByBrand('Pointer')">Pointer</a>
+                    <a href="realce.html" onclick="filterByBrand('Realce')">Realce</a>
+                    <a href="tecnogres.html" onclick="filterByBrand('Tecnogres')">Tecnogres</a>
+
+
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="lustres.html">Lustres</a>
+                <div class="dropdown-content">
+                    <a href="gauchos.html" onclick="filterByBrand('Gauchos Luminárias')">Gaucho luminárias</a>
+                    <a href="taschibras.html" onclick="filterByBrand('Taschibras')">Taschibras</a>
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="banheiro.html">Banheiro</a>
+                <div class="dropdown-content">
+                    <a href="armario.html" onclick="filterByBrand('Armario')">Armário</a>
+                    <a href="kitacesso.html" onclick="filterByBrand('Kit Acesso')">Kit Acesso</a>
+
+                    <a href="registro.html" onclick="filterByBrand('Registros')">Registros</a>
+                    <a href="sanitario.html" onclick="filterByBrand('Sanitário')">Sanitário</a>
+                    <a href="torneira.html" onclick="filterByBrand('Torneira')">Torneira</a>
+                </div>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="construcao.html">Construção</a>
+                <div class="dropdown-content">
+                    <a href="eletrica.html" onclick="filterByBrand('Elétrica')">Elétrica</a>
+                    <a href="hidraulica.html" onclick="filterByBrand('Hidráulica')">Hidráulica</a>
+                    <a href="reparos.html" onclick="filterByBrand('Reparos')">Reparos</a>
+                    <a href="telhado.html" onclick="filterByBrand('Telhado')">Telhado</a>
+
+
+                </div>
+            </li>
+
+            <li class="dropdown">
+                <a href="decoracao.html">Decoração</a>
+                <div class="dropdown-content">
+                    <a href="vaso.html" onclick="filterByBrand('Vaso')">Vaso</a>
+                    <a href="porta.html" onclick="filterByBrand('Porta')">Porta</a>
+                    <a href="parede.html" onclick="filterByBrand('Parede')">Parede</a>
+
+
+
+                </div>
+            </li>
+
+
+            <li class="dropdown">
+                <a href="cozinha.html">Cozinha</a>
+                <div class="dropdown-content">
+                    <a href="pia.html" onclick="filterByBrand('Pia')">Pia</a>
+                    <a href="armario2.html" onclick="filterByBrand('Armário')">Armário</a>
+
+
+
+
+                </div>
+            </li>
+
+
+        </ul>
+
+
+    </nav>
+
+
+
+
+    <div class="search-bar">
+        <input type="text" id="searchInput" placeholder="Buscar produto...">
+        <button onclick="searchProduct()">Pesquisar</button>
+    </div>
+
+    <div class="carousel">
+        <img src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/d0290de423d5840801fd935c0c8169bd/Banner_para_site_ilustrado_para_promo__o_do_dia_do_cliente.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrFZFGCQ3LTzKoiOjyDSpfxQy1_Jzpx0852q0KXGS5kOfcTItQ7uuxNoXerjRsw2AU28Q9VLGoN7f5hyy2XaIyt8gzFzgAZKB2Wsa6RzU23VgFbk3PtoiPd8K4G8PueVz-LxCDBpRewgNhtde9w3Pwv6v2a6qZclZ-1_F5ffdKWXaULGD0DiaWNDE1XUz4icya590wmYU6jeuMnoDHqSZs2G" class="active" alt="Imagem 1">
+        <img src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/434947189c7fb9fa7167549fcebcbb61/2_2_.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrFl9vBZ7AADhsEj_w9Ol7DOtB2-EHDMInzaenoc63U6csh2XcJa-UjgjFAu_zY0ys6GAcOfCrl8-7ClajuL1xmO-crsJO6OE9aqBh1hDINU8QX0L1lrfr4ITUzizOt_Npo=" alt="Imagem 2">
+        <img src="https://u1.padletusercontent.com/uploads/padlet-uploads/933833254/f017c0a605fe33a5a64c4b74c24b7393/1_3_.png?token=_siI4-0qIuaG7Br3OeW4tDSftcnfUhFg1A5NweFgucHLE-JfsKvk46i5NX8FrTZqT05DxqHPcDXmNGvc1RffU_rTEX4MuACAXYIHC6FcdrFuvB1OV-Fo1IPriCb3Nh8mE6cmwY_vdLAvyKHWu5bfjg6nIKPId3KmH0gQG7Wz6fwrVqQZj6hdWdbLHCyKr8NgAqDrA6j0Mx1AE7sVrTIkOwB5-morQHX_s8ffECukFjU=" alt="Imagem 3">
+        <div class="carousel-controls">
+            <button onclick="prevSlide()">❮</button>
+            <button onclick="nextSlide()">❯</button>
+        </div>
+    </div>
+
+    >
+
+
+
+    <div id="searchResults"></div>
+
+    <!-- Carrinho de compras -->
+    <div id="cart">
+        <h2>Carrinho de Compras</h2>
+        <ul id="cartItems"></ul>
+        <p id="cartTotal"></p>
+        <button class="finish-purchase-btn" onclick="finalizePurchase()">Finalizar Compra</button>
+    </div>
+
+    <!-- Botão de WhatsApp -->
+    <a href="https://wa.me/5588999750300" class="whatsapp-btn" target="_blank">
+
+        <img src="https://th.bing.com/th/id/R.24b5c5331d3737ab69b2d4e631b35596?rik=9rxLG2wT6VCazA&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fwhatsapp-png-wazapp-logo-whats-whatsapp-logo-whatsapp-icon-2050.png&ehk=Spk3ZDnOuA%2bBHep8M1XmGD7BVSPDFPev4tIe8OW694Y%3d&risl=&pid=ImgRaw&r=0" alt="WhatsApp" width="45" height="45">
+    </a>
+
+    <footer>
+        <p>&copy; 2024 Loja de Materiais de Construção. Todos os direitos reservados.</p>
+    </footer>
+
+    <script>
+        const products = [
+
+            { id: 224, name: 'Piso Ceramico 43x43 DIJON HD 2,03m² 43198 Karina', brand: 'seladora', image: 'https://grupokarina.com.br//public/images/products/43198-grande_original.webp', price: 10 },
+
+            { id: 225, name: 'Piso Ceramico 43x43 43214 CORINTO HD 2,03m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/459f2dfe1bb5a443345dc615fa1b66ff/43214_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kF684JkCVNLdBXJRZa_YKNCrrs86bLpQXhk3ndhl_OSa0BTL73s1fldJ2Sim9X1Ik4rc12eDvuXnaJLD5lZgbZ9cEFDkRTj9Umx0F5D8XsyfENaN5X_iIsjQaLBgbUOBe', price: 10 },
+            { id: 226, name: 'Piso Ceramico 43x43 43185 CUMARU 2,03m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/209990963f30df491d54c67f00f458eb/43185_f1_grande_original.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kGlpwgcV5_vHMB6kyalt6V-i1VMXP-JlDkli8wp6ps_95M-dMZ3BTO8bnz-Q5JtSi8O7FKgAhencnyzMgf3wq8YuDxPsJWQDeyiLzixzfXfG8hItuphA7y5PW5TOQkWFD7_9_nEPqWI6vRRQ-ROpZZw==', price: 10 },
+            { id: 227, name: 'Piso Ceramico 43x43 43212 BRECCIA GRAY 2,03M² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/2256ff8fe3571221b32cce44d4fd334b/43212_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kUK8d4Te9E5TPcwfuXM-ABs6cYTYOc6GnFyU5T33Ol39NAdzcfcgsM9HkK_4x0jYyZ0LFwrh-BHZH5CuzLAk6GcM2urtLTscDpuOBvuM2qI6w3pF92BT_pC2Z64VoaUZSE_qXIdQau84s457aW6dTcQ==', price: 10 },
+            { id: 228, name: 'Piso Ceramico 43x43 43199 BRECCIA HD 2,03M² KARINA', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/62ac994db8b9a0b59e72bbdc450ecc8a/43199_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kKpEwlkNzI6Dp68kJEQS5q2CumDbnF1DqzLU9XhPwIvCvkQRvHNRYkU7FSdjjGGwhMzOlLHuYclQpmP0FgWJCWpgeU7wRcG_2uNbUPw3GG6dIjwOMxgmUvdwIK5hSSeciLkE-h7jinyNJJf9qLr-VCg==', price: 10 },
+            { id: 229, name: 'Piso Ceramico 43x43 43010 IMOLA 2,03M² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/41f90a155451f81b8b1831ef3336fc62/Design_sem_nome__6_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kg2nl4rTUVxo3A_hZ_eJ6YLBZhvp7Jdl8I4uyWM3YUhxCN4jhN_YrPAThQ1hYhdPoZGf8Eg7vfeSdEr90Vrz_EMihsBuAP-wiKl1-0rkIKqiLSHTmCpnako9WMYxuHRxZ', price: 10 },
+            { id: 230, name: 'Piso Ceramico 43x43 43169 DELFOS HD 2,03M² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/d4ea47bfaf11c6b9666020948c337cc4/43169_grande_original.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kP7__VE2yq2k9tZ9SarY2l1IH-4rFPjhtKwlBzn4FthcLM4wX8kEAkFdKTqQbeTlihtub_v9XICeebkM97ZOK2Mw_4cXzHW7fIK16ECnzw5am76JbZ49qk6x1wk2opvGb', price: 10 },
+            { id: 231, name: 'Piso Ceramico 43x43 HIMALAIA 43098 2,03M² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/bd7c77e00c272be69283883dce589fb5/Design_sem_nome__5_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kqRUFXidWk8WIKGLcdfatxu4NJaa1pkTkGUUA5TiJteYmYXWPoO8GfqDFNePUVU7YwD9ZuAB1hVESTd16HDA8fB7DqBxgw_rhOwlnd2uZoqsdW50oJ_d7qhzw6x_VSSld', price: 10 },
+            { id: 232, name: 'Piso Ceramico 43x43 ARAUCARIA 43174 2,03M² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/d7d6037175fe9a3d3ace244a60a0393c/57174_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35k5zskk7GRh4Bbw6x5JzXcL_sHEWLT9GSFaji5mKs-OkZTqENOV3sb9QLZcSKVTWx1xEWeXJkbD2Uxk-WG5GA5gHP3lDYk_jy4bB7bVGgg6yAvPDdUDgM_6A-i9ueCcbEr0O4Tpcy_7o8HK3W2AlmFtg==', price: 10 },
+            { id: 233, name: 'Piso Ceramico clas A 57x57 57168 2,23m² Karina', brand: 'seladora', image: 'https://grupokarina.com.br//public/images/products/57168-grande_original.webp', price: 10 },
+            { id: 234, name: 'Piso Ceramico clas A 57x57 57101 2,23m² Karina', brand: 'seladora', image: 'https://grupokarina.com.br//public/images/products/57101-grande_original.webp', price: 10 },
+            { id: 235, name: 'Piso Ceramico clas A 57x57 57090 2,23m² karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/7bcfe556e3e603c903722cdd875ef04b/img_1517849716i.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35k6mbu41YYKQDJTmjPwwwIvRZN2BYPTbyycNsXmK6A1KMAyF6ukXPml8qu-eTzbVpQuwmEbSpsPxR-3Vj-KC1lheZcZWFIy4uoXPdx_cOxECbHhmln5q2TPv3g1QOJO8Bl', price: 10 },
+
+
+            { id: 236, name: 'Piso Ceramico Clas A 57x57 57008 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/a94543d87ec3f5ee798017ef9bda6af2/57008_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35k-TSNGtPJCReXh908qyemJnh0VZJL9Xi-cBvv8_A7AzRJy37bgSPuDkQv66ro9Io9eLOes_b3Nzkn99lS3dT7kVZmZbW4_gYsg5EbK8NopNstK_Ugd9n_07aZPNt-nsxF4549qFBfGy5NKIZHghyjuw==', price: 10 },
+            { id: 237, name: 'Piso Ceramico Clas A 57x57 57114 2,23m² KArina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/9fadedd4ad8091703c98a651357483e9/57114_grande_original.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kIzLdySy1Y-P0LKAZ5CtrAKDXUHOq2n3XH-KJg4tRg5QuYbCYV8g8sAZX_We4lbxZIiKaLQUszvsAiU7-pokrZO2F1oSwScOFhQBV5K-6ndxSWMDvHMPGRHCG0ZvW8zR2', price: 10 },
+            { id: 238, name: 'Piso Ceramico Clas A 57x57 57075 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/a08fef675df56d8b54a60d5d1b0fb867/57075_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35k7gUCCHXXhYWUWNxAm5UBmrSdsLJZf_N9pcV08J4h5Ulxkpm00yMJ0aJL6WM6hEf1hGlfYY4-tV0645GxKVFL21SxRRmWCpb2Sru628kgjO9xigLtm1ZsATmEpABmjwxL', price: 10 },
+            { id: 239, name: 'Piso Ceramico Clas A 57x57 57034 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/fe5b793bb9ce330875d59f45cce19e12/57034_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kEbwyRDx-2LACuNnSMgdxFLP19UcfyYznSqB77DupK9Y5_l4YRPknmh2oTWzwYLWIVTGoryuROUY5dRVDsdMUTj7yqRyYtl3KOuVppvKIjRacV0r9Zq2FElUHQxs5Ci4D', price: 10 },
+            { id: 240, name: 'Piso Ceramico Clas A 57x57 57098 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/745c016954d783959ce5cedcc0e70733/kauepk.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35k7bPVKVkhEluCojXC_IY-pTwRzx0hBUu8dBlHEFXfQKl3QG26tz3yoJsPVw8BUCKfqEHKye6t72fuV-0k7e0NBreGUKEy56U99eXhN2775C5EwlaT5cLp4flQ4NGWEV8M', price: 10 },
+            { id: 241, name: 'Piso Ceramico Clas A 57x57 57221 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/8cf915d1f65576283d7446ebebab70c7/57221_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kVihGenrOCn4CvH3wvkzkzpU5OBJwSWowvAY9EziOUHUrCaJT4FB_xWUppr0jt4mf5FciLbVXESYMeprC3YHzwCo1vyRwLxPL-URn0XnwKS_WOCCvkJ9_doJtUuUgKQ15q-a9ol7RG7ItOVzpwD3r-w==', price: 10 },
+            { id: 242, name: 'Piso Ceramico Clas A 57x57 57080 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/c7e552736143d0fb89f5f2eb3bffbefa/57080_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kFd2oDp-XF9SwLit4F4OnN5Ah2aOxtbI5Hhq4w_MqU2LgYNNrTNHHYLS4-3SPEG8MY5ITortyMiZecrGQJ-zHCpD0rCyP_lz49oZSAWcVI6ZpLcoM6LuM4vBg9GE6Ts9C', price: 10 },
+            { id: 243, name: 'Piso Ceramico Clas A 57x57 57021 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/4c25663ab41e9fd6678ad4ae92cb4047/Post_fa_a_sua_encomenda_j_ias_bege__4_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kKxaOySQ4WrsmTD50bALlY2s7lgmlsbHnhmt1S6w_0K3GrC4qSYT0unsOPcKp4YSd5pRhtO-Lkp2SF9vjtw06b3mi76UsUMK9e99VIGmmH06UN407TmwFEVhUEbfx9z9rJSbP4wzRjQLvzKWfUuL2TA==', price: 10 },
+            { id: 244, name: 'Piso Ceramico Clas A 57x57 57069 2,23M² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/d0b4ce732989ff4ef38d0c2735f1be4b/57069_fundo_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kEgl1yUndVqypGAyN_-VQPY7vuwoISD0iwcOP2Mz12ZL2a-PglVSMhzvOL-LWztZ05-qYnXuv90yZT-erk4NsBtfG63ZktPAzJrE6ymgUAN_ladsSl5OZFW59Ha5axDe-uj0ZY1zIRsQM7ZGHLHopkw==', price: 10 },
+            { id: 245, name: 'Piso Ceramico Clas A 57x57 57011 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/160d163dff4a4f6ba89488761744eb63/Post_fa_a_sua_encomenda_j_ias_bege__5_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kEAaf3TmVh5rdFA9dxHKbDSG86CwfU6Na9XcEjPz6Bsbrlk1f6vijzZjT1fOR9hHovQo8OEUX26zJ4QVPT2pVyBQaXgmdpbZJ-DCDQsUtW_nedqUYtp37eBvCEp6ZsNLbBFxnM4wpCuhHQU83OnTY0Q==', price: 10 },
+            { id: 246, name: 'Piso Ceramico Clas A 57x57 57207 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/d76c681be60aa4c7fe8966e054951013/piso_via_veneto_hd_57207_a_57x57_1677_1_6a343ec80a75e3ed2fdd07bb04d96799.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kYn5kYHWWCHfUzJY9OINR4Zpv6Vmn-WMdG_hFB3O1GCSVGP2C8xJXdu45jZD4fU3kPUxSVW-lWRbbXavS1to7M-resITh7dCmwyMqTKX3R0GfHR0YTUPmzTd5rkdXfdp-mgjupZXvWaPsepvgH9JwChhhOa6L1c7iE_jHMq-_oFgGj0y3Q0TRkCU3DeON7S5QuEeth-JHZL6Nw2UoUIUjCg==', price: 10 },
+            { id: 247, name: 'Pico Ceramico Clas A 60X60 60322 2,52m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/a867c74e397b08c03d6a8de579d1f276/60322_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kJDNvQgOxQZhI7ta8T01-vQ0xNHUqzQG1OWSlooW4hbdcHJov706CuY9-xlfbtTXVPlML-NRGbcTz6AabVZw-IXi1IefgILcFfqx1pv7dRcyPr1Exeo7UTGljiDGXi_T-m9CgpYPcKorJVtNMj0dYQQ==', price: 10 },
+            { id: 248, name: 'Pico Ceramico Clas A 60X60 60319 2,52m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/b74b4cf044bc2489b28c62b97113c9f6/60319_f1_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kHzcJh2xhqls0XtGKKwW-QXMt6PYZGYrh45m1a6q6TOwrxWmWMVZPFuWvinwggPuV5JDRPL5tYVDvCc47Nr4RdT56AFio5dhI921yfqTBA3T_U7iyjGvRhCk-SM4lEg4b', price: 10 },
+            { id: 249, name: 'Pico Ceramico Clas A 60X60 60320 2,52m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/0de8365e2a1c94378a48a2b0d5c70396/Post_fa_a_sua_encomenda_j_ias_bege__6_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kRnQ1sjnvPsyCvR-2q1McMWJrisggiroMobrC1D43_0VD81q-bjxhdWfEWQTQvx8bQkZBZQ01wDAQR-MntrjRz2uNj5lcRwxAnd2Bd99tHfPiVbIEsPKGXI5rqIVS9K5J9-aXoaNJOqBP7bYI0dx6Xw==', price: 10 },
+            { id: 250, name: 'Pico Ceramico Clas A 60X60 60001 2,52m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/e1874988d52afef79c0798a0cf4f930d/60001_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kz_SSHgH9AtBNTcmA7bK2dkrmw7g-yQRryw6ewHtU44AtS7q5VT18GVfspfYtmseVRulpsL4FY0Ng5JXB230s8e9rLrmtRwUfUhFBG0v5LDpOcNEvy8BtfqI1zHr0-c1v', price: 10 },
+            { id: 251, name: 'Piso Ceramico Clas A 75X75 75005 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/85635ac30b10c4a347648ec8cebd65fb/cosmuz_f1_grande_original.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kZKtafKk8_5VeJvBBx0OkkB0bT4Sjpye-Sp0GSAv2405Nj_jMizWh3uNL44fbBU36ALmQNKjiePPSe0TUZ57emUMPDyZcM4D4Moskot-1KsF3noH5HiQFa5kycMVKOCT8lpEIMsJJfhMDYUPK6gfKGg==', price: 10 },
+            { id: 252, name: 'Piso Ceramico Clas A 75X75 75012 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/9ab9550e9594140ada1ca86aba0e1e02/moon_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kjs8C4L72BD_Gwv_znUZNWiW8Xd5IzbQCtLE-hFiQbv7MEFARxbUlbVQLFnc1XEIBAZFXJU9CntpOHcZbBx7_g0-YjpNe_dAw5V4PKwX4Bzp8_Af9VgFKU5Qffo7c7ksB_9uzRZV2pwCDIoYxiBw4Cw==', price: 10 },
+            { id: 253, name: 'Piso Ceramico Clas A 75X75 75007 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/290d820e99cfd18593b488a9ad67b8f1/onyx_blue_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kOgagAjIQoakdb0zk1tkaZeVuCehdzsbn_vjY-XCYcTbtLkpfQMkXSAvojKU-_s3hbGn20mkARIQlfn9Tc9gQ4jqdGMbIvpmMGAr-tK-ECeSRG7WGM1tXF5yEkWYTxENynNTYizsipvnT89UBUbTHaQ==', price: 10 },
+            { id: 254, name: 'Piso Ceramico Clas A 75X75 75009 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/111b76e2c247a1b6c0e876ef9492156d/patagonia_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35klEi9mSbyERYqe8SGTbev045edbKkeR6_3yIUtrB8tB74TsHg2TQa0jRJtcRZvcz03UiST4asYI6Z9DEyGx_7a8aIsB3KT595Mf3uuHG2sFXZWi-g-SPfHdInOmQhYg7UL2GlKCQ92w4-AHIHinrl9A==', price: 10 },
+            { id: 255, name: 'Piso Ceramico Clas A 75X75 75027 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/21e336fccc527efd43fbbb4f186a1eb7/piso_ceramico_karina_onix_black_hd_75x75cm_75027_esmaltado_cx_2_23m_2953_1_2b937c53bac466d04b005248b4eb5d37.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kqHCBpKMakF70BDv6eYOOTeYv96pVrW4X1fs7Z4uij-hlpB5KlVrESmq8YWBtZJITCloXbn5ldU7lcKnGb3C0bo2n982ed1EhQ6Ag4TY0v_jomJPTqoYpp4b5hQ2yV6IzHAU5SfY8ShNBAq9L4VKj2zpfv1jz6zKSGoo2tuQaKnF0ZeELFC8nGELk_sIienBHd2b2GwbZuCzP4cnGfuP-XyWOLkKnbYhO9Gwp2WvpVcDvLEPq2QVNezv89LR1D6IW', price: 10 },
+            { id: 256, name: 'Piso Ceramico Clas A 75X75 75029 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/640b18949149132aeb8a36c36fa801a6/Post_fa_a_sua_encomenda_j_ias_bege__3_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kcPkGXTNoa_V_yDoxzsijuv8VV2Ctxy51NEa2tO77UsE22pgDSCLqoyCD0qUan7XFMo7hMgzkxDLN83SalSI6FaYkbKiCyVhNL-dgokMnxAUUn5s_v-RgxtaOzB89jUeXfZ6y9r0zqDP28mojyKJKeQ==', price: 10 },
+            { id: 257, name: 'Piso Ceramico Clas A 75X75 75003 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/5cb6b06e61d50b24cacf5beb2fbe5bd2/Post_fa_a_sua_encomenda_j_ias_bege__4_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kUbXOmJkyG3eQk1mUYBcON-UxK12sasn8rNJb2wS8oVVnkGbHjvyr5lpwQPwQCxsa6B9OdcWlipp4Dw3tamuOQCJ8J3SiHT7dKxbmBvImWVzNJqQQ_YP9ljiLpEcLEHDJ-qNgKAO_GEVb6tX8ASgMwA==', price: 10 },
+            { id: 258, name: 'Piso Ceramico Clas A 75X75 75004 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/6938877010a825ef7f4bc036b29ed31c/Post_fa_a_sua_encomenda_j_ias_bege__5_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kG5WaiCZG3lcx397CjdacA89wITGS8JPHHYs_WdtKZkAozIrsOZS1C6oinkm7zZpLnutzSESDcDtmBbG-Gfu-KYPUhbbqmM63Eem6JpfphORU3MM0GTmVY5p22U1AiFHq_8Wf7PDf966i-0lMJA3oCg==', price: 10 },
+            { id: 259, name: 'Piso Ceramico Clas A 75X75 75015 2,23m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/5c77f08810a4fa78ac104c0cf337098a/piso_karina_hd_saint_laurent_75015_75x75_a_49007_1_70d382c0823401a11c33c8aca899fa49.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35ke6TgNXY85WNxAqrTjvuqI-Tv8ot8EK27A8_nAJDu9ZvWbkBS2a35BLYBQtTRLX7Hc-hLKWzM8FzhCGQ2Pi4Q_aMfryLKYBFV37QT2hCocGlNc0Ova1FV2DpeU481Mfp79FO2OVax2ynEOAfXRA_dmr-xNjVMQVNihqOaoK5bYK8boBpy1fEPE56g6SQkTq6Fb9scrvD1U46YTlaRjl4Fog==', price: 10 },
+            { id: 260, name: 'Piso Ceramico Clas A 76X76 76008 2,28m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/008b8b069d1e9fd1ff3cee638a6317d8/portland_acetinado_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35ktczeVsdRVSpU8uhr9-pyi4mZ92zc4IaaDlwKb1ZBbpxPMPrOw3Xtc1oTSrPUqbM4BB8IKrQB5S8r_nSPjCGzcpqJ45XMIYElDzGiFS_UOFJD3MaWawAB2Orjm8CwsdmWH8NP6VAqMK4QE6e-5AaFQQ==', price: 10 },
+            { id: 261, name: 'Piso Ceramico Clas A 76X76 76031 2,28m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/c93ee3e27990098bdaadce368bf5e2b8/76031_f1_pequeno_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kOXbVuV_8cCKYiglS4UubwPTN_eU2zeKHtqY2fCJLDtpKGqKAg2nbGo7_k1QIiEeUkNm0hTRQw_DkzDzq4jDrtigCg2c3yew-3SfeCwCjdKZ6KuGful4IJ4PmV6bCoBEQJDf0DsQRIhf6TsRWX6Fuog==', price: 10 },
+            { id: 262, name: 'Piso Ceramico Clas A 76X76 76013 2,28m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/3de3562ef029a0092f95bd9cc7e7967e/venezia_acetinado_f1_grande_original.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kEmGlvAuBLp6I3ONbcr9-JL5fjDQQLrzol_WNTp1ciYVF_fzS2HIcEf0pJmk4Hw9B3oPkmVsINIw1FfCVy_xSI8gIirpN9eGKu6GLKu65-eWeTVc6uGUMV4C9_UHCifrdfycaO8bqkm5eB1OeJXVSqQ==', price: 10 },
+            { id: 263, name: 'Revestimento ceramico 32x56 39002 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/2592e09199e2f29f77b19c55b6ea18ad/Design_sem_nome__42_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kRVZupXogmTHBDf1e79DOEZShHU_12TDKu0UvAKiAbiXs_f82mPAC0c9JzZlIm45-uuBAgLTFHOIrecpAjToVemQcaB9CFLVlT4QiQ8o1lXd89RXcylLji69A9ERZwl_R', price: 10 },
+            { id: 264, name: 'Revestimento ceramico 31x56 31111 1,92m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/c7e92257c4275cfb933f9746a45415d2/31111_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35k0aWeRrkjy2iphGbqUFF-qxXkySu6iDIw5htmoAy_DKMtHNQwh59dY8vkxKkLHj1kX1ir9NC1oZF02uylh6eTWR-uhbPT2bFRPEph-Tiqw4aoF2knrePhG1azKy17yRl1', price: 10 },
+            { id: 265, name: 'Revestimento ceramico 32x57 37076 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/0d6d0ee32fb6a69b16382262848348e9/37076_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kzVoB_rHi3yEEn2_EVXb1jLU8HqYy2mL1dn9uAbkH3RgGHTkDeCAN5Tueu2sdvrYeIc8IkV9_m4Tro51cL8zsgGN6HR9soI7XHbxhOeDXFR30FLZnj5qhe-XZlfkOrNxk', price: 10 },
+            { id: 266, name: 'Revestimento ceramico 32x57 37082 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/9c8a9027e498ff36cf4cc71c72ba0469/37082_grande_original.jpg?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kS_8LLIFq0QNHphaGO3rswIycsQLNkv_Vu3rfSaGEhP34KtQDVGTMNerYrzuQoQTDY6iIC4fm_vseMqCifwZBKGjSjN7IqH7XNwNKQpFluAWIxHiCUgspfw3lNDbRcxpB', price: 10 },
+            { id: 267, name: 'Revestimento ceramico 32x57 37094 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/e40339a6549b693349f04d2bd0591817/37094_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kN5uLtp_jAqpnI4Dk-lcpWiV7u4_mUERPzyyPc1HQ8AfR54kJKPJYksQefz2JUKUQ-X1HJq0F2hAH8JeYNHdVfAGnVDED7g1p0-5_dIyP1Ik5F2KnouB-xWHhgUFcvrJv-KpPUDe5thEwnL0v60XZKw==', price: 10 },
+            { id: 268, name: 'Revestimento ceramico 32x57 37098 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/887787d60c29bff3b7791acc971944f6/Design_sem_nome__19_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kGhyT5ye8ZXd9AQoUlyWywFMS9sTnIR7zSIiGa_SnqO9W3ro-7Y_wcUvw6fg5xuTCB28ETGk_VSC0qK2q7p9xbELz81KvdoK9MLfMlzKdQSiQ7hwq8pwEkAkOT8pug41M', price: 10 },
+            { id: 269, name: 'Revestimento ceramico 32x57 37109 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/e52839894c86b40e4b3002238c1500d8/37109_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kb9wMjlVrMpjb7TlZTv2pmfrHGnGSWOMKZaNnTqNjnaeNHp8eGU46LpJwQ3zsgJ-pAOs_kEInDZ5oLklKPRPdwPidMTDxqJIEoYf9rhW2Y5baKTuRV6wsgUOGcyZ_MbGM', price: 10 },
+            { id: 270, name: 'Revestimento ceramico 32x57 37114 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/fe1c3495343c46200775d4597bfa03d8/37114_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kE8x1DcYR8ZlM7buY-pgjH72-4Hi51W7KV9-OSa70gSl7JfcVgX_k0bw4EHyqhIgM9M4oknQPPKPzH7g2LtH0zssqziHomRgbnnbNTw5Ecjo6SuZ6QW1c6QWbNP5QtANjzPf7nVS4elXvIXrsjDjcYg==', price: 10 },
+            { id: 271, name: 'Revestimento ceramico 32x57 37205 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/a6fb5d0d01fe7116f8342e09e942816a/Design_sem_nome__39_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kVqf7LwK8TLxVJBEhzCOvhpbrDXqV2RNOzI9zlMjbgU28KqqAnKughyPIUUiCB8ALTpvJmw8sGGQMlqknet-rrCbyKp0qELuu1fHRieBrMcrM_5E2_Dv9LcnpabP5HH1o', price: 10 },
+            { id: 272, name: 'Revestimento ceramico 32x57 37206 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/9b71dcf8281264f051cfd4b9a66174be/37206_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kqBf54NB7d0FVOanzEyEq11gG39APVUYEgx38OAUQ8UuYgaZjAbqh-2qvyK418xXbY2anJY6PM4l8XuxkTSWm1_VrJzMzP-eF558YGKwOVPwE_02LHz6QWagFFle-3Bmqvf9_yk3pNTQiXFxo0qUlUg==', price: 10 },
+            { id: 273, name: 'Revestimento ceramico 32x57 39019 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/e67b2957e721bbb77a8224a30c9d10d7/8294_1.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kU4qdiDuf7nHGZFXYTfTyQ7n6tIlo6pryFPZdN61CoicRaSLWDajKgvt1N5mLXnvSc6ECg5lK7CGG1Dz2kxnTnS8yQIS9jh8U6HIim4bH_vKB6UE0sGN9ye-TI31PfJaz', price: 10 },
+            { id: 274, name: 'Revestimento ceramico 32x57 37207 1,45m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/ed4df607b6791ccdbbfe76646d466fc6/37207_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35klj2vKWoBYgSGrZVGtHow-pt390DRWVgGi6Wk-A59dOy3cl1zdR8R2mq7FkNH8ocGiaGw6foEFzjAUQLJXelOzJBkfeYjicPSDNsGZ5cBctek7C2eyzkHdBS_AzTCz-WDTF0dveEweyVkexNSjUzsIw==', price: 10 },
+            { id: 275, name: 'Revestimento ceramico 36x75 33015 1,90m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/fd55a9cfaa758b664938cfd8bf333b24/Design_sem_nome__15_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35ko24jDGnQEAcsVR5QHLqkmXbEL40jl81g_a-V3xgMz6UKp44fzTiF9sGuO8cm_j_ryHzcXWKyHBuYuwnBb8VGlDSwwf2aVvNvqLMfpP3QnpfoyrItpLfvV9C4zglWFRAj', price: 10 },
+            { id: 276, name: 'Revestimento ceramico 37x76 34018 1,97m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/e41b1258295358563d036587bf749a7a/Design_sem_nome__17_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kd3RiDvtkIx-LQncn7y16MdPqAf14LMCkqAhVzb1UGT4QtkvTZJzQx_dP1se79zAEpoM0fFGc2B-SYlHC_L-WMG5BSm8mFOAM4ySL6KkHmk2_9W3TYP7bVKfUaG7g5qBh', price: 10 },
+            { id: 277, name: 'Revestimento ceramico 37x76 34016 1,97m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/142b6ea70a22bef472a7b5110fb1b637/Design_sem_nome__21_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kMAE9j0rqZ5_aWdIOBLL1dLh8_IXXM6nQMWAK8qfgdU-IHGsNg9hKVQK_NyfvntZ2LksopBJ4J_d57uRGl0dMgPwjs10QxaNxD7eKUFWOcl8x7-xDmci0__VJrSEIVouZ', price: 10 },
+            { id: 278, name: 'Revestimento ceramico 37x76 34017 1,97m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/15327b3a15967b27cac358c93925c4ff/Design_sem_nome__22_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kTYWFjlG2WziM6I3-rK1yDcSgYeAF4Aqz_xyYBuNyWGS8vdv8TLmgrEqrziJhFRYVplPqnG0oqMJKMnEYKmc2O-5UPUIjBvGbISZ7qiKLT6hJxAEnBPLBFQFGJPktRbMl', price: 10 },
+            { id: 279, name: 'Revestimento ceramico 36x75 33004 1,90m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/0e5269fb04a181505598dcdc39904d38/Design_sem_nome__23_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kZSQb1krToEgwKrHjKM3rh6U81m3ZXEXxPjiS5tcxGqPRzJpTYYnoNTB--GbaTsvJWIPbF-tZtHVuWmkRjHqtR4oNf5QhWi66XanDaLl2fAGaKn4KNije00ZHUF9XJzeK', price: 10 },
+            { id: 280, name: 'Revestimento ceramico 59x104 64004 1,85m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/40b91fac2b34076fa25aee6ceb95c1b6/64004_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kmGaWENa3u4T-5yGMxXWriZ8Sa4xKcYEfx-6Sv0t8_ok68aABL8DCaJAmGmhMzEEvszvQlSSn9aY6CeMamqtB8gXiq-kA0bWAL5WislyMF9ugBHTSMduzHz3-zQNfvGlE_nB-926JbcUafo5T6Ryv-A==', price: 10 },
+            { id: 281, name: 'Revestimento ceramico 59x104 64006 1,85m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/455fae20e00efc800817b22780ee7088/64006_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kVZCkP94q9KXZf_vf0XsUSLf-gtmRa01DcX8a_Cc6o3_EgM5oO8KUoRZOBMHiKz59eROqPQ1PIFwGOpnIuDZeldR_DKnXlXf-Ie7fPI-fgqn7Wkk2j1zJJY4gEwPazIiMul6bhQE-on3ewYEvPmr0MQ==', price: 10 },
+            { id: 282, name: 'Revestimento ceramico 59x104 64016 1,85m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/7825b5c0dd0aed685f163c66edf45848/64016_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35kP6keCZcNwnY_ZmqS7Y36_bGWcZ1XS81Zs-EXNgXsIkCfGH-qFc76lmOUBTr3Gaxujb5wf6vm5d-nyikavYz2C_ecFzt1Sdk5ESe5s_-P79xYaI9hd4sySvvjtdFNzaONdGZBcqvFXoeclYrznwYSjg==', price: 10 },
+            { id: 283, name: 'Revestimento ceramico 60x105 65011 1,90m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/972c46bbfe5f7783b982bd862debe9c6/65011_f1_grande_original.webp?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35k2xl3hgURbk00v4aD3_wT5mRKOyg2gZNSRLaLSkWbVaPxTSWEoIBPn_lsk3GVfBEnalyZmCjlrvkCXCUjaTzOYMAeuMbfTkRbkWTdRHFcprEJLpQ_nQ0J3354z1j7ETpPMEWn-8REnt4TnCWDk3uV4A==', price: 10 },
+            { id: 284, name: 'Revestimento ceramico 60x105 65013 1,90m² Karina', brand: 'seladora', image: 'https://u1.padletusercontent.com/uploads/padlet-uploads/2985187378/c1ba2ce62053001de714600fe578af98/Design_sem_nome__41_.png?token=4UnXSqQZt_8RsaX60azHTu4_sz2-zPTUfUvi5i8fnFQ4Akzop-NwK16npgnSxG2pGiANoQLG1Ue0ljHh_lAYo1rbdzmr3hETrXy25oCfKRd3tk2dGgS55tf4LaMkQ35klkBivxh132XnauHUFTgY--UeOW9me6kiXPPjodXpIwdlfKwt-ik2jAE5pkEDIdxtzsqc47FO7lR8Y21r4gHpLa2sIVQJEh1BqA9HyxR4nq60Gk5Ev9gkUlLGh66XtjOt', price: 10 },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        ];
+
+
+        let carrinho = JSON.parse(localStorage.getItem('carrinho')) || [];
+
+        function displayProducts(products) {
+            const searchResults = document.getElementById('searchResults');
+            searchResults.innerHTML = '';
+            products.forEach(product => {
+                const productElem = document.createElement('div');
+                productElem.className = 'product';
+                productElem.innerHTML = `
+                                                <img src="${product.image}" alt="${product.name}">
+                                                <h3>${product.name}</h3>
+                                               <!-- <p>R$ ${product.price.toFixed(2)}</p> --><!-- Preço removido -->
+                                                <div class="quantity">
+                                                    <button onclick="decreaseQuantity(${product.id})">-</button>
+                                                    <input type="number" id="quantity-${product.id}" value="1" min="1">
+                                                    <button onclick="increaseQuantity(${product.id})">+</button>
+                                                </div>
+                                                <button onclick="addToCart(${product.id})">Adicionar ao Carrinho</button>
+                                            `;
+                searchResults.appendChild(productElem);
+            });
+        }
+
+        function addToCart(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            const quantity = parseInt(quantityInput.value);
+            const product = products.find(p => p.id === productId);
+
+            const existingItem = carrinho.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                carrinho.push({ ...product, quantity });
+            }
+
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            updateCart();
+        }
+
+        function increaseQuantity(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+
+        function decreaseQuantity(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            if (parseInt(quantityInput.value) > 1) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        }
+
+        function updateCart() {
+            const cartItemsList = document.getElementById('cartItems');
+            const cartTotal = document.getElementById('cartTotal');
+            cartItemsList.innerHTML = '';
+            let total = 0;
+
+            carrinho.forEach(item => {
+                const cartItemElem = document.createElement('li');
+                cartItemElem.innerHTML = `
+                                                ${item.name} - Quantidade: ${item.quantity}<!-- - R$ ${(item.price * item.quantity).toFixed(2)}-->
+                                                <span class="remove-item" onclick="removeItem(${item.id})">Remover</span>
+                                            `;
+                cartItemsList.appendChild(cartItemElem);
+                total += item.price * item.quantity;
+            });
+
+            //cartTotal.textContent = `Total: R$ ${total.toFixed(2)}`;
+        }
+
+        function removeItem(productId) {
+            carrinho = carrinho.filter(item => item.id !== productId);
+            localStorage.setItem('carrinho', JSON.stringify(carrinho));
+            updateCart();
+        }
+
+        function finalizePurchase() {
+            if (carrinho.length === 0) {
+                alert('Seu carrinho está vazio. Adicione itens para finalizar a compra.');
+                return;
+            }
+
+            // Gerar a mensagem do resumo da compra
+            let message = 'Olá, gostaria de finalizar a compra dos seguintes itens:\n\n';
+            carrinho.forEach(item => {
+                message += `- ${item.name} (quantidade: ${item.quantity})\n`; // Preços removidos
+            });
+            const total = carrinho.reduce((acc, item) => acc + 1 * item.quantity, 0);
+            message += `\n Total de itens ${total.toFixed(2)}`;
+
+            // Exibir uma janela de escolha
+            const selectedNumber = prompt(
+                `Escolha o número para enviar a mensagem:\n1. Vendedor Elvis: +55 88 99863-1283\n2. Vendedora Naiane: +55 88 99741-9360\n3. Vendedora Tatiane: +55 88 99863-12833\n\nDigite 1, 2 ou 3:`
+            );
+
+            let whatsappLink = '';
+
+                     switch (selectedNumber) {
+    case '1':
+        whatsappLink = `https://wa.me/5588998631283?text=${encodeURIComponent(message)}`;
+        break;
+    case '2':
+        whatsappLink = `https://wa.me/5588997419360?text=${encodeURIComponent(message)}`;
+        break;
+    case '3':
+        whatsappLink = `https://wa.me/55889986312833?text=${encodeURIComponent(message)}`;
+        break;
+    default:
+        alert('Número inválido! Por favor, tente novamente.');
+        return; // Sai da função sem redirecionar
+}
+
+            // Redireciona para o WhatsApp com o número escolhido
+            window.open(whatsappLink, '_blank');
+        }
+
+
+        displayProducts(products);
+        updateCart();
+    </script>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('open'); // Alterna a classe "open" para mostrar/esconder o menu
+        }
+    </script>
+
+    <script>
+        // Função de busca corrigida
+        function searchProduct() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(searchInput) ||
+                product.brand.toLowerCase().includes(searchInput)
+            );
+            if (filteredProducts.length > 0) {
+                displayProducts(filteredProducts);
+            } else {
+                document.getElementById('searchResults').innerHTML = '<p>Nenhum produto encontrado.</p>';
+            }
+        }
+
+        // Função do menu hamburguer melhorada
+        function toggleMenu() {
+            const menu = document.querySelector('.menu');
+            menu.classList.toggle('open'); // Alterna a classe "open" para mostrar/esconder o menu
+        }
+
+
+        let currentIndex = 0;
+        const slides = document.querySelectorAll('.carousel img');
+
+        function showSlide(index) {
+            slides.forEach((slide, i) => {
+                slide.classList.toggle('active', i === index);
+            });
+        }
+
+        function nextSlide() {
+            currentIndex = (currentIndex + 1) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        function prevSlide() {
+            currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+            showSlide(currentIndex);
+        }
+
+        // Transição automática a cada 3 segundos
+        setInterval(nextSlide, 5000);
+
+        // Mostra o primeiro slide ao carregar
+        showSlide(currentIndex);
+
+    </script>
+
+
+</body>
+</html>
